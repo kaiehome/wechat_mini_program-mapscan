@@ -1,0 +1,30 @@
+<!--components/progress/progress.wxml-->
+<view class="progress-component">
+  <!-- 进度文字 -->
+  <view class="progress-text" wx:if="{{showText}}">
+    <text class="progress-label">打卡进度</text>
+    <text class="progress-count">{{completed}}/{{total}}</text>
+    <text class="progress-percentage">{{progressPercentage}}%</text>
+  </view>
+
+  <!-- 进度条容器 -->
+  <view class="progress-container">
+    <!-- 背景条 -->
+    <view 
+      class="progress-bg" 
+      style="height: {{height}}rpx; background-color: {{backgroundColor}};">
+    </view>
+    
+    <!-- 进度条 -->
+    <view 
+      class="progress-bar {{animated ? 'animated' : ''}}"
+      animation="{{animationData}}"
+      style="height: {{height}}rpx; background-color: {{color}}; width: {{progressPercentage}}%;">
+    </view>
+  </view>
+
+  <!-- 完成状态提示 -->
+  <view class="completion-hint" wx:if="{{progressPercentage === 100}}">
+    <text class="hint-text">🎉 恭喜完成所有打卡！</text>
+  </view>
+</view>

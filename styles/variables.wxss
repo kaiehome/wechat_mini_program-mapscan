@@ -1,0 +1,151 @@
+/* styles/variables.wxss */
+/* 样式变量定义 */
+
+/* 主色调 */
+page {
+  --primary-color: #4CAF50;
+  --primary-dark: #45a049;
+  --primary-light: #81C784;
+  
+  /* 辅助色 */
+  --secondary-color: #FF9800;
+  --accent-color: #2196F3;
+  
+  /* 文字颜色 */
+  --text-color: #333333;
+  --text-secondary: #666666;
+  --text-disabled: #999999;
+  --text-white: #ffffff;
+  
+  /* 背景色 */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --bg-tertiary: #f8f8f8;
+  --bg-overlay: rgba(0, 0, 0, 0.5);
+  
+  /* 边框颜色 */
+  --border-color: #e0e0e0;
+  --border-light: #f0f0f0;
+  --border-dark: #cccccc;
+  
+  /* 状态颜色 */
+  --success-color: #4CAF50;
+  --warning-color: #FF9800;
+  --error-color: #F44336;
+  --info-color: #2196F3;
+  
+  /* 阴影 */
+  --shadow-light: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+  --shadow-medium: 0 4rpx 12rpx rgba(0, 0, 0, 0.15);
+  --shadow-heavy: 0 8rpx 24rpx rgba(0, 0, 0, 0.2);
+  
+  /* 圆角 */
+  --radius-small: 8rpx;
+  --radius-medium: 12rpx;
+  --radius-large: 16rpx;
+  --radius-xl: 20rpx;
+  --radius-round: 50rpx;
+  
+  /* 间距 */
+  --spacing-xs: 8rpx;
+  --spacing-sm: 12rpx;
+  --spacing-md: 16rpx;
+  --spacing-lg: 20rpx;
+  --spacing-xl: 24rpx;
+  --spacing-xxl: 32rpx;
+  
+  /* 字体大小 */
+  --font-xs: 20rpx;
+  --font-sm: 24rpx;
+  --font-md: 28rpx;
+  --font-lg: 32rpx;
+  --font-xl: 36rpx;
+  --font-xxl: 40rpx;
+  
+  /* 字体粗细 */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 600;
+  --font-weight-heavy: 700;
+  
+  /* 行高 */
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.4;
+  --line-height-loose: 1.6;
+  
+  /* 动画时间 */
+  --transition-fast: 0.2s;
+  --transition-normal: 0.3s;
+  --transition-slow: 0.5s;
+  
+  /* 动画函数 */
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Z-index层级 */
+  --z-index-dropdown: 1000;
+  --z-index-sticky: 1020;
+  --z-index-fixed: 1030;
+  --z-index-modal-backdrop: 1040;
+  --z-index-modal: 1050;
+  --z-index-popover: 1060;
+  --z-index-tooltip: 1070;
+  
+  /* 打卡点颜色 */
+  --checkpoint-signin: #4CAF50;
+  --checkpoint-esports: #FF9800;
+  --checkpoint-coffee: #9C27B0;
+  --checkpoint-makeup: #E91E63;
+  --checkpoint-sleep: #2196F3;
+  --checkpoint-breeze: #00BCD4;
+  
+  /* 印章状态颜色 */
+  --stamp-completed: #4CAF50;
+  --stamp-pending: #FF9800;
+  --stamp-locked: #999999;
+  
+  /* 进度条颜色 */
+  --progress-bg: #f0f0f0;
+  --progress-fill: #4CAF50;
+  --progress-text: #666666;
+  
+  /* 按钮状态 */
+  --btn-primary-bg: #4CAF50;
+  --btn-primary-color: #ffffff;
+  --btn-primary-hover: #45a049;
+  
+  --btn-secondary-bg: #f5f5f5;
+  --btn-secondary-color: #666666;
+  --btn-secondary-border: #e0e0e0;
+  
+  --btn-disabled-bg: #f0f0f0;
+  --btn-disabled-color: #cccccc;
+  
+  /* 卡片样式 */
+  --card-bg: #ffffff;
+  --card-border: #e0e0e0;
+  --card-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.1);
+  
+  /* 输入框样式 */
+  --input-bg: #ffffff;
+  --input-border: #e0e0e0;
+  --input-focus-border: #4CAF50;
+  --input-placeholder: #999999;
+  
+  /* 列表样式 */
+  --list-item-bg: #ffffff;
+  --list-item-border: #f0f0f0;
+  --list-item-hover: #f8f8f8;
+  
+  /* 导航样式 */
+  --nav-bg: #4CAF50;
+  --nav-color: #ffffff;
+  --nav-active-color: #ffffff;
+  
+  /* Tab样式 */
+  --tab-bg: #ffffff;
+  --tab-color: #666666;
+  --tab-active-color: #4CAF50;
+  --tab-border: #f0f0f0;
+}

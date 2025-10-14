@@ -1,0 +1,39 @@
+# 图标资源说明
+
+## 需要添加的图标文件：
+
+### 导航图标：
+1. map.png - 地图图标（未选中）
+2. map-active.png - 地图图标（选中）
+3. scan.png - 扫码图标（未选中）
+4. scan-active.png - 扫码图标（选中）
+5. progress.png - 印章图标（未选中）
+6. progress-active.png - 印章图标（选中）
+
+### 功能图标：
+7. scan-large.png - 大尺寸扫码图标
+8. check.png - 完成状态勾选图标
+9. circle.png - 未完成状态圆圈图标
+10. completed.png - 已完成标记图标
+11. pending.png - 待完成标记图标
+12. default.png - 默认图标
+
+### 打卡点图标：
+13. signin.png - 签到点图标
+14. esports.png - 电竞区图标
+15. coffee.png - 咖啡区图标
+16. makeup.png - 美妆区图标
+17. sleep.png - 睡眠区图标
+18. breeze.png - 清风区图标
+
+## 图标规格要求：
+- 尺寸：64x64 像素（导航图标）
+- 格式：PNG（支持透明背景）
+- 风格：简洁现代，符合小程序设计规范
+- 颜色：与主题色搭配
+
+## 设计建议：
+- 使用线性图标风格
+- 保持视觉一致性
+- 确保在小尺寸下清晰可见
+- 支持深色和浅色背景

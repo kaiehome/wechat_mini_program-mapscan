@@ -1,0 +1,226 @@
+/* pages/scan/scan.wxss */
+.scan-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  padding: 40rpx 20rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 扫码提示区域 */
+.scan-header {
+  text-align: center;
+  color: white;
+  margin-bottom: 60rpx;
+}
+
+.scan-title {
+  font-size: 48rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+}
+
+.scan-subtitle {
+  font-size: 28rpx;
+  opacity: 0.9;
+}
+
+/* 扫码内容区域 */
+.scan-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 30rpx;
+  padding: 60rpx 40rpx;
+  margin-bottom: 40rpx;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.1);
+}
+
+.scan-icon {
+  margin-bottom: 40rpx;
+}
+
+.scan-image {
+  width: 200rpx;
+  height: 200rpx;
+}
+
+.scan-button {
+  width: 400rpx;
+  height: 100rpx;
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  border-radius: 50rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  border: none;
+  box-shadow: 0 6rpx 16rpx rgba(76, 175, 80, 0.3);
+  transition: all 0.3s ease;
+}
+
+.scan-button.scanning {
+  background: linear-gradient(135deg, #ff9800, #f57c00);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.scan-tips {
+  margin-top: 40rpx;
+  width: 100%;
+}
+
+.tip-item {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+  text-align: center;
+}
+
+/* 进度显示区域 */
+.progress-section {
+  background-color: white;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.1);
+}
+
+.progress-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+
+.progress-info {
+  text-align: center;
+  margin-bottom: 20rpx;
+}
+
+.progress-text {
+  font-size: 28rpx;
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 12rpx;
+  background-color: #f0f0f0;
+  border-radius: 6rpx;
+  overflow: hidden;
+  margin-bottom: 30rpx;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4CAF50, #45a049);
+  border-radius: 6rpx;
+  transition: width 0.5s ease;
+}
+
+.checkpoint-status {
+  display: flex;
+  flex-direction: column;
+  gap: 15rpx;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  padding: 15rpx;
+  border-radius: 12rpx;
+  background-color: #f8f8f8;
+  transition: all 0.3s ease;
+}
+
+.status-item.completed {
+  background-color: #e8f5e8;
+  border: 2rpx solid #4CAF50;
+}
+
+.status-item.pending {
+  background-color: #fff3e0;
+  border: 2rpx solid #ff9800;
+}
+
+.status-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 15rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-icon image {
+  width: 30rpx;
+  height: 30rpx;
+}
+
+.status-name {
+  font-size: 26rpx;
+  color: #333;
+}
+
+.status-item.completed .status-name {
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+/* 操作按钮区域 */
+.action-section {
+  display: flex;
+  justify-content: space-between;
+  gap: 20rpx;
+}
+
+.action-section button {
+  flex: 1;
+  height: 80rpx;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+/* 扫码结果提示 */
+.scan-result {
+  background-color: #e8f5e8;
+  border: 2rpx solid #4CAF50;
+  border-radius: 16rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+
+.result-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #4CAF50;
+  margin-bottom: 10rpx;
+}
+
+.result-content {
+  font-size: 24rpx;
+  color: #666;
+}
+
+/* 响应式适配 */
+@media (max-width: 750rpx) {
+  .action-section {
+    flex-direction: column;
+  }
+  
+  .scan-button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "stamp-item": "/components/stamp/stamp"
+  },
+  "navigationBarTitleText": "我的印章",
+  "navigationBarBackgroundColor": "#4CAF50",
+  "navigationBarTextStyle": "white",
+  "enablePullDownRefresh": true
+}

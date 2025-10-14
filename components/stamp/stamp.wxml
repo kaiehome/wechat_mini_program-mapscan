@@ -1,0 +1,43 @@
+<!--components/stamp/stamp.wxml-->
+<view 
+  class="stamp-component {{size}} {{getStampStatusClass()}} {{clickable ? 'clickable' : ''}}"
+  bindtap="onStampTap">
+  
+  <!-- 印章图标容器 -->
+  <view class="stamp-icon-container">
+    <!-- 印章图片 -->
+    <view class="stamp-image-wrapper">
+      <image 
+        class="stamp-image {{showAnimation ? 'animated' : ''}}"
+        animation="{{animationData}}"
+        src="{{completed ? image : '/images/stamps/locked.png'}}"
+        mode="aspectFit">
+      </image>
+      
+      <!-- 完成状态标识 -->
+      <view class="completion-badge" wx:if="{{completed}}">
+        <text class="badge-text">✓</text>
+      </view>
+    </view>
+
+    <!-- 印章光环效果 -->
+    <view class="stamp-glow" wx:if="{{completed}}"></view>
+  </view>
+
+  <!-- 印章信息 -->
+  <view class="stamp-info">
+    <view class="stamp-name">{{name}}</view>
+    <view class="stamp-time" wx:if="{{completed}}">{{completionTime}}</view>
+    <view class="stamp-time pending" wx:else>待完成</view>
+  </view>
+
+  <!-- 印章类型标识 -->
+  <view class="stamp-type-badge {{type}}" wx:if="{{type === 'signin'}}">
+    <text class="type-text">签到</text>
+  </view>
+
+  <!-- 点击提示 -->
+  <view class="tap-hint" wx:if="{{clickable && !completed}}">
+    <text class="hint-text">点击查看详情</text>
+  </view>
+</view>

@@ -1,0 +1,149 @@
+/* pages/index/index.wxss */
+.container {
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+/* 进度条区域 */
+.progress-section {
+  background-color: white;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+/* 地图容器 */
+.map-container {
+  flex: 1;
+  margin: 0 20rpx;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.1);
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+/* 操作按钮区域 */
+.action-buttons {
+  display: flex;
+  justify-content: space-around;
+  padding: 30rpx 20rpx;
+  background-color: white;
+  margin-top: 20rpx;
+}
+
+.scan-btn, .stamps-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 280rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+.scan-btn {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  box-shadow: 0 4rpx 12rpx rgba(76, 175, 80, 0.3);
+}
+
+.stamps-btn {
+  background-color: #f5f5f5;
+  color: #666;
+  border: 2rpx solid #e0e0e0;
+}
+
+.btn-icon {
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 10rpx;
+}
+
+/* 打卡点说明 */
+.checkpoints-info {
+  background-color: white;
+  margin: 20rpx;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+.info-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30rpx;
+  text-align: center;
+}
+
+.checkpoint-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.checkpoint-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  border-radius: 16rpx;
+  background-color: #f8f8f8;
+  transition: all 0.3s ease;
+}
+
+.checkpoint-item.completed {
+  background-color: #e8f5e8;
+  border: 2rpx solid #4CAF50;
+}
+
+.checkpoint-icon {
+  width: 60rpx;
+  height: 60rpx;
+  margin-right: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkpoint-icon image {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.checkpoint-content {
+  flex: 1;
+}
+
+.checkpoint-name {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.checkpoint-item.completed .checkpoint-name {
+  color: #4CAF50;
+}
+
+.checkpoint-desc {
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.4;
+}
+
+/* 响应式适配 */
+@media (max-width: 750rpx) {
+  .action-buttons {
+    flex-direction: column;
+    gap: 20rpx;
+  }
+  
+  .scan-btn, .stamps-btn {
+    width: 100%;
+  }
+}

@@ -1,0 +1,58 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <!-- 进度条组件 -->
+  <view class="progress-section" wx:if="{{showProgress}}">
+    <progress-bar 
+      percentage="{{progressPercentage}}"
+      completed="{{userProgress.completedStamps.length}}"
+      total="{{userProgress.totalStamps}}">
+    </progress-bar>
+  </view>
+
+  <!-- 地图容器 -->
+  <view class="map-container">
+    <map
+      id="map"
+      class="map"
+      longitude="{{mapCenter.longitude}}"
+      latitude="{{mapCenter.latitude}}"
+      scale="16"
+      markers="{{markers}}"
+      show-location="true"
+      bindmarkertap="onMarkerTap"
+      bindregionchange="onRegionChange">
+    </map>
+  </view>
+
+  <!-- 操作按钮区域 -->
+  <view class="action-buttons">
+    <button class="btn-primary scan-btn" bindtap="goToScan">
+      <image src="/images/icons/scan.png" class="btn-icon"></image>
+      开始扫码打卡
+    </button>
+    
+    <button class="btn-secondary stamps-btn" bindtap="goToStamps">
+      <image src="/images/icons/progress.png" class="btn-icon"></image>
+      查看我的印章
+    </button>
+  </view>
+
+  <!-- 打卡点说明 -->
+  <view class="checkpoints-info">
+    <view class="info-title">打卡点位说明</view>
+    <view class="checkpoint-list">
+      <view 
+        class="checkpoint-item {{userProgress.completedStamps.includes(item.id) ? 'completed' : ''}}"
+        wx:for="{{checkpoints}}" 
+        wx:key="id">
+        <view class="checkpoint-icon">
+          <image src="{{userProgress.completedStamps.includes(item.id) ? '/images/icons/check.png' : '/images/icons/circle.png'}}"></image>
+        </view>
+        <view class="checkpoint-content">
+          <view class="checkpoint-name">{{item.name}}</view>
+          <view class="checkpoint-desc">{{item.description}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

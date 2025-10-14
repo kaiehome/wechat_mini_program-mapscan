@@ -1,0 +1,125 @@
+<!--pages/stamps/stamps.wxml-->
+<view class="stamps-container">
+  <!-- 头部进度显示 -->
+  <view class="header-section">
+    <view class="progress-card">
+      <view class="progress-title">廉洁探索进度</view>
+      <view class="progress-stats">
+        <view class="stat-item">
+          <text class="stat-number">{{userProgress.completedStamps.length}}</text>
+          <text class="stat-label">已完成</text>
+        </view>
+        <view class="stat-divider">/</view>
+        <view class="stat-item">
+          <text class="stat-number">{{userProgress.totalStamps}}</text>
+          <text class="stat-label">总点位</text>
+        </view>
+      </view>
+      
+      <view class="progress-bar">
+        <view 
+          class="progress-fill" 
+          style="width: {{(userProgress.completedStamps.length / userProgress.totalStamps) * 100}}%">
+        </view>
+      </view>
+
+      <view class="completion-status" wx:if="{{userProgress.completionStatus}}">
+        <view class="completion-icon">🎉</view>
+        <view class="completion-text">恭喜！您已完成所有打卡</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 印章展示区域 -->
+  <view class="stamps-section">
+    <view class="section-title">电子印章收藏</view>
+    
+    <view class="stamps-grid">
+      <view 
+        class="stamp-item {{item.isCompleted ? 'completed' : 'pending'}}"
+        wx:for="{{stamps}}" 
+        wx:key="id"
+        bindtap="onStampTap"
+        data-id="{{item.id}}">
+        
+        <view class="stamp-icon">
+          <image 
+            src="{{item.isCompleted ? item.stampImage : '/images/stamps/locked.png'}}" 
+            class="stamp-image">
+          </image>
+          <view class="stamp-status" wx:if="{{item.isCompleted}}">✓</view>
+        </view>
+        
+        <view class="stamp-info">
+          <view class="stamp-name">{{item.name}}</view>
+          <view class="stamp-time" wx:if="{{item.isCompleted}}">
+            {{item.completionTime}}
+          </view>
+          <view class="stamp-time" wx:else>
+            待完成
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮区域 -->
+  <view class="action-section">
+    <button class="btn-primary" bindtap="startScan">
+      继续扫码打卡
+    </button>
+    <button class="btn-secondary" bindtap="goToMap">
+      查看地图
+    </button>
+  </view>
+
+  <!-- 印章详情弹窗 -->
+  <view class="stamp-detail-modal {{showStampDetail ? 'show' : ''}}" wx:if="{{selectedStamp}}">
+    <view class="modal-mask" bindtap="closeStampDetail"></view>
+    <view class="modal-content">
+      <view class="modal-header">
+        <view class="modal-title">{{selectedStamp.name}}</view>
+        <view class="modal-close" bindtap="closeStampDetail">×</view>
+      </view>
+      
+      <view class="modal-body">
+        <view class="stamp-preview">
+          <image src="{{selectedStamp.stampImage}}" class="preview-image"></image>
+        </view>
+        
+        <view class="stamp-description">
+          {{selectedStamp.description}}
+        </view>
+        
+        <view class="stamp-details">
+          <view class="detail-item">
+            <text class="detail-label">状态：</text>
+            <text class="detail-value {{selectedStamp.isCompleted ? 'completed' : 'pending'}}">
+              {{selectedStamp.isCompleted ? '已完成' : '待完成'}}
+            </text>
+          </view>
+          
+          <view class="detail-item" wx:if="{{selectedStamp.isCompleted}}">
+            <text class="detail-label">完成时间：</text>
+            <text class="detail-value">{{selectedStamp.completionTime}}</text>
+          </view>
+          
+          <view class="detail-item">
+            <text class="detail-label">类型：</text>
+            <text class="detail-value">{{selectedStamp.type === 'signin' ? '签到点' : '打卡点'}}</text>
+          </view>
+        </view>
+      </view>
+      
+      <view class="modal-footer">
+        <button class="btn-secondary" bindtap="closeStampDetail">关闭</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 开发者工具 -->
+  <view class="dev-tools" wx:if="{{false}}">
+    <button class="btn-secondary" bindtap="resetProgress">重置进度</button>
+    <button class="btn-secondary" bindtap="exportProgress">导出进度</button>
+  </view>
+</view>

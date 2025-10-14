@@ -1,0 +1,230 @@
+/* components/stamp/stamp.wxss */
+.stamp-component {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx;
+  border-radius: 16rpx;
+  background-color: #ffffff;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  border: 2rpx solid transparent;
+}
+
+.stamp-component.clickable {
+  cursor: pointer;
+}
+
+.stamp-component.clickable:active {
+  transform: scale(0.95);
+}
+
+/* 印章图标容器 */
+.stamp-icon-container {
+  position: relative;
+  margin-bottom: 16rpx;
+}
+
+.stamp-image-wrapper {
+  position: relative;
+  width: 120rpx;
+  height: 120rpx;
+}
+
+.stamp-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.stamp-image.animated {
+  animation: stampPulse 1s ease-out;
+}
+
+@keyframes stampPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* 完成状态标识 */
+.completion-badge {
+  position: absolute;
+  top: -8rpx;
+  right: -8rpx;
+  width: 40rpx;
+  height: 40rpx;
+  background-color: #4CAF50;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3rpx solid #ffffff;
+  box-shadow: 0 2rpx 8rpx rgba(76, 175, 80, 0.3);
+}
+
+.badge-text {
+  color: #ffffff;
+  font-size: 24rpx;
+  font-weight: bold;
+}
+
+/* 印章光环效果 */
+.stamp-glow {
+  position: absolute;
+  top: -10rpx;
+  left: -10rpx;
+  right: -10rpx;
+  bottom: -10rpx;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #4CAF50, #45a049);
+  opacity: 0.2;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { opacity: 0.2; transform: scale(1); }
+  to { opacity: 0.4; transform: scale(1.1); }
+}
+
+/* 印章信息 */
+.stamp-info {
+  text-align: center;
+  width: 100%;
+}
+
+.stamp-name {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8rpx;
+  line-height: 1.3;
+}
+
+.stamp-time {
+  font-size: 22rpx;
+  color: #4CAF50;
+}
+
+.stamp-time.pending {
+  color: #999;
+}
+
+/* 印章类型标识 */
+.stamp-type-badge {
+  position: absolute;
+  top: 10rpx;
+  left: 10rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 12rpx;
+  font-size: 20rpx;
+  font-weight: 600;
+}
+
+.stamp-type-badge.signin {
+  background-color: #4CAF50;
+  color: #ffffff;
+}
+
+/* 点击提示 */
+.tap-hint {
+  position: absolute;
+  bottom: -30rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4rpx 12rpx;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 8rpx;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.stamp-component:hover .tap-hint {
+  opacity: 1;
+}
+
+.hint-text {
+  color: #ffffff;
+  font-size: 20rpx;
+}
+
+/* 不同尺寸 */
+.stamp-component.small {
+  padding: 16rpx;
+}
+
+.stamp-component.small .stamp-image-wrapper {
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.stamp-component.small .stamp-name {
+  font-size: 22rpx;
+}
+
+.stamp-component.small .stamp-time {
+  font-size: 20rpx;
+}
+
+.stamp-component.large {
+  padding: 30rpx;
+}
+
+.stamp-component.large .stamp-image-wrapper {
+  width: 160rpx;
+  height: 160rpx;
+}
+
+.stamp-component.large .stamp-name {
+  font-size: 32rpx;
+}
+
+.stamp-component.large .stamp-time {
+  font-size: 26rpx;
+}
+
+/* 不同状态 */
+.stamp-component.completed {
+  border-color: #4CAF50;
+  background-color: #f8fff8;
+}
+
+.stamp-component.completed .stamp-name {
+  color: #4CAF50;
+}
+
+.stamp-component.pending {
+  border-color: #e0e0e0;
+  background-color: #fafafa;
+}
+
+.stamp-component.pending .stamp-name {
+  color: #666;
+}
+
+.stamp-component.signin {
+  border-color: #4CAF50;
+  background: linear-gradient(135deg, #f8fff8, #ffffff);
+}
+
+/* 响应式适配 */
+@media (max-width: 750rpx) {
+  .stamp-component {
+    padding: 16rpx;
+  }
+  
+  .stamp-image-wrapper {
+    width: 100rpx;
+    height: 100rpx;
+  }
+  
+  .stamp-name {
+    font-size: 24rpx;
+  }
+  
+  .stamp-time {
+    font-size: 20rpx;
+  }
+}
