@@ -1,149 +1,381 @@
 /* pages/index/index.wxss */
 .container {
-  height: 100vh;
-  background-color: #f5f5f5;
+  padding: 0;
+  background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+  min-height: 100vh;
 }
 
-/* 进度条区域 */
-.progress-section {
-  background-color: white;
+/* 顶部平铺进度区域 */
+.progress-container {
+  background: transparent;
+  color: #333;
+  padding: 10rpx 20rpx; /* 进一步降低高度 */
+  margin: 0;
+  box-shadow: none;
+  border-bottom: 1rpx solid #eee;
+}
+
+.progress-flat {
+  display: flex;
+  align-items: baseline;
+  gap: 16rpx;
+}
+
+.progress-title {
+  font-size: 26rpx; /* 更紧凑的字号 */
+  font-weight: 600;
+}
+
+.progress-inline {
+  font-size: 26rpx;
+  color: #666;
+}
+
+/* 响应式地图容器 */
+.responsive-map-container {
   padding: 20rpx;
-  margin-bottom: 20rpx;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+  background-color: #f5f5f5;
+  min-height: 100vh;
 }
 
-/* 地图容器 */
-.map-container {
-  flex: 1;
-  margin: 0 20rpx;
+.map-wrapper {
+  position: relative;
+  background-color: white;
   border-radius: 20rpx;
   overflow: hidden;
-  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 750rpx; /* 最大宽度限制 */
+  margin: 0 auto;
 }
 
-.map {
+/* 响应式地图图片 */
+.responsive-map-image {
+  width: 100%;
+  height: auto;
+  min-height: 500rpx;
+  max-height: 80vh; /* 最大高度为视窗高度的80% */
+  display: block;
+  object-fit: contain;
+}
+
+/* 打卡点圆圈覆盖层 */
+.checkpoint-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  pointer-events: none;
+  /* 确保覆盖层完全覆盖地图背景 */
 }
 
-/* 操作按钮区域 */
-.action-buttons {
-  display: flex;
-  justify-content: space-around;
-  padding: 30rpx 20rpx;
-  background-color: white;
-  margin-top: 20rpx;
+.checkpoint-overlay .checkpoint-circle {
+  pointer-events: auto;
 }
 
-.scan-btn, .stamps-btn {
+/* 打卡点圆圈 */
+.checkpoint-circle {
+  position: absolute;
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 280rpx;
-  height: 80rpx;
-  border-radius: 40rpx;
-  font-size: 28rpx;
-  font-weight: bold;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.15);
+  border: 3rpx solid #fff;
 }
 
-.scan-btn {
+.checkpoint-circle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6rpx 24rpx rgba(0, 0, 0, 0.2);
+}
+
+/* 打卡点图标 */
+.checkpoint-icon {
+  width: 70rpx;
+  height: 70rpx;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+/* 未打卡状态 - 灰度滤镜 */
+.checkpoint-icon.pending {
+  filter: grayscale(100%) brightness(0.6);
+  opacity: 0.7;
+}
+
+/* 已打卡状态 - 彩色显示 */
+.checkpoint-icon.completed {
+  filter: none;
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.checkpoint-circle.completed {
   background: linear-gradient(135deg, #4CAF50, #45a049);
-  color: white;
-  box-shadow: 0 4rpx 12rpx rgba(76, 175, 80, 0.3);
+  border-color: #4CAF50;
+  box-shadow: 0 6rpx 20rpx rgba(76, 175, 80, 0.4);
 }
 
-.stamps-btn {
-  background-color: #f5f5f5;
-  color: #666;
-  border: 2rpx solid #e0e0e0;
+.checkpoint-circle.pending {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: #ddd;
 }
 
-.btn-icon {
-  width: 32rpx;
-  height: 32rpx;
-  margin-right: 10rpx;
-}
-
-/* 打卡点说明 */
-.checkpoints-info {
-  background-color: white;
-  margin: 20rpx;
-  border-radius: 20rpx;
-  padding: 30rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.1);
-}
-
-.info-title {
-  font-size: 32rpx;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 30rpx;
-  text-align: center;
-}
-
-.checkpoint-list {
+/* 完成状态指示器 */
+.completion-indicator {
+  position: absolute;
+  bottom: -5rpx;
+  right: -5rpx;
+  width: 30rpx;
+  height: 30rpx;
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  border-radius: 50%;
   display: flex;
-  flex-direction: column;
-  gap: 20rpx;
+  align-items: center;
+  justify-content: center;
+  border: 2rpx solid white;
+  box-shadow: 0 2rpx 8rpx rgba(76, 175, 80, 0.3);
+}
+
+.completion-check {
+  color: white;
+  font-size: 18rpx;
+  font-weight: bold;
+}
+
+.circle-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.circle-number {
+  font-size: 24rpx;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 1rpx 3rpx rgba(0, 0, 0, 0.3);
 }
 
 .checkpoint-item {
   display: flex;
   align-items: center;
   padding: 20rpx;
-  border-radius: 16rpx;
-  background-color: #f8f8f8;
-  transition: all 0.3s ease;
+  border-radius: 15rpx;
+  border: 2rpx solid #E0E0E0;
+  transition: all 0.5s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .checkpoint-item.completed {
-  background-color: #e8f5e8;
-  border: 2rpx solid #4CAF50;
+  border-color: #4CAF50;
+  background-color: #E8F5E8;
+  box-shadow: 0 4rpx 20rpx rgba(76, 175, 80, 0.2);
+}
+
+.checkpoint-item.pending {
+  border-color: #E0E0E0;
+  background-color: #FAFAFA;
+  filter: grayscale(1);
+  opacity: 0.6;
+}
+
+.checkpoint-item.all-completed {
+  border-color: #4CAF50;
+  background: linear-gradient(135deg, #E8F5E8, #F1F8E9);
+  box-shadow: 0 6rpx 25rpx rgba(76, 175, 80, 0.3);
+  transform: scale(1.02);
 }
 
 .checkpoint-icon {
-  width: 60rpx;
-  height: 60rpx;
   margin-right: 20rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.checkpoint-icon image {
+.checkpoint-icon .icon {
   width: 40rpx;
   height: 40rpx;
+  transition: all 0.3s ease;
 }
 
-.checkpoint-content {
+.icon-completed {
+  filter: brightness(1.2) saturate(1.3);
+}
+
+.icon-pending {
+  filter: grayscale(1) brightness(0.6);
+}
+
+.checkpoint-info {
   flex: 1;
 }
 
 .checkpoint-name {
-  font-size: 28rpx;
+  font-size: 26rpx;
   font-weight: bold;
-  color: #333;
   margin-bottom: 8rpx;
+  transition: all 0.3s ease;
 }
 
-.checkpoint-item.completed .checkpoint-name {
+.name-completed {
+  color: #2E7D32;
+}
+
+.name-pending {
+  color: #CCCCCC;
+}
+
+.checkpoint-area {
+  font-size: 22rpx;
+  margin-bottom: 8rpx;
+  transition: all 0.3s ease;
+}
+
+.area-completed {
   color: #4CAF50;
 }
 
-.checkpoint-desc {
-  font-size: 24rpx;
-  color: #666;
-  line-height: 1.4;
+.area-pending {
+  color: #DDDDDD;
 }
 
-/* 响应式适配 */
-@media (max-width: 750rpx) {
-  .action-buttons {
-    flex-direction: column;
-    gap: 20rpx;
+.checkpoint-status {
+  font-size: 20rpx;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.status-completed {
+  color: #4CAF50;
+}
+
+.status-pending {
+  color: #CCCCCC;
+}
+
+/* 响应式打卡点圆圈覆盖层 */
+.checkpoint-overlay-responsive {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.checkpoint-overlay-responsive .checkpoint-circle-responsive {
+  pointer-events: auto;
+}
+
+/* 响应式打卡点圆圈 */
+.checkpoint-circle-responsive {
+  position: absolute;
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.2);
+}
+
+.checkpoint-circle-responsive.pending {
+  background-color: #CCCCCC;
+  border: 3rpx solid #999999;
+}
+
+.checkpoint-circle-responsive.completed {
+  background-color: #4CAF50;
+  border: 3rpx solid #2E7D32;
+  transform: scale(1.1);
+}
+
+.circle-number {
+  font-size: 24rpx;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 1rpx 3rpx rgba(0, 0, 0, 0.3);
+}
+
+/* 完成庆祝效果 */
+.celebration-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(76, 175, 80, 0.95) 0%,
+    rgba(76, 175, 80, 0.9) 50%,
+    rgba(76, 175, 80, 0.95) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: celebrationFadeIn 1s ease-out;
+}
+
+@keyframes celebrationFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
   }
-  
-  .scan-btn, .stamps-btn {
-    width: 100%;
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
+}
+
+.celebration-content {
+  text-align: center;
+  color: white;
+  animation: celebrationBounce 2s ease-in-out infinite;
+}
+
+@keyframes celebrationBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20rpx);
+  }
+}
+
+.celebration-icon {
+  font-size: 120rpx;
+  margin-bottom: 40rpx;
+  animation: celebrationRotate 3s linear infinite;
+}
+
+@keyframes celebrationRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.celebration-title {
+  font-size: 48rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+}
+
+.celebration-text {
+  font-size: 28rpx;
+  opacity: 0.9;
 }

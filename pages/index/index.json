@@ -2,7 +2,7 @@
   "usingComponents": {
     "progress-bar": "/components/progress/progress"
   },
-  "navigationBarTitleText": "廉洁探索地图",
-  "navigationBarBackgroundColor": "#4CAF50",
-  "navigationBarTextStyle": "white"
+  "navigationBarTitleText": "打卡地图",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark"
 }

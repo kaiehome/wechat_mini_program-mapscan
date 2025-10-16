@@ -1,74 +1,55 @@
 // utils/storage.js
-// 数据存储工具类
 
-const STORAGE_KEYS = {
-  USER_PROGRESS: 'userProgress',
-  SCAN_HISTORY: 'scanHistory',
-  USER_SETTINGS: 'userSettings'
-}
-
+/**
+ * 数据存储工具类
+ */
 class Storage {
   constructor() {
-    this.defaultProgress = {
-      isSignedIn: false,
-      completedStamps: [],
-      totalStamps: 6,
-      lastScanTime: null,
-      completionStatus: false,
-      createTime: Date.now(),
-      updateTime: Date.now()
+    this.STORAGE_KEYS = {
+      USER_PROGRESS: 'userProgress',
+      USER_INFO: 'userInfo',
+      SCAN_HISTORY: 'scanHistory',
+      APP_SETTINGS: 'appSettings'
     }
   }
 
   /**
    * 获取用户打卡进度
-   * @returns {Object} 用户进度数据
    */
-  getProgress() {
+  getUserProgress() {
     try {
-      const progress = wx.getStorageSync(STORAGE_KEYS.USER_PROGRESS)
-      if (!progress) {
-        return this.defaultProgress
-      }
-      
-      // 确保数据结构完整
-      return {
-        ...this.defaultProgress,
-        ...progress,
-        updateTime: Date.now()
-      }
+      const progress = wx.getStorageSync(this.STORAGE_KEYS.USER_PROGRESS)
+      return progress || this.getDefaultProgress()
     } catch (error) {
-      console.error('获取用户进度失败', error)
-      return this.defaultProgress
+      console.error('获取用户进度失败:', error)
+      return this.getDefaultProgress()
     }
   }
 
   /**
    * 保存用户打卡进度
-   * @param {Object} progress 进度数据
    */
-  saveProgress(progress) {
+  saveUserProgress(progress) {
     try {
       const progressData = {
         ...progress,
-        updateTime: Date.now()
+        lastUpdateTime: Date.now(),
+        version: '1.0.0'
       }
-      wx.setStorageSync(STORAGE_KEYS.USER_PROGRESS, progressData)
-      console.log('用户进度已保存', progressData)
+      wx.setStorageSync(this.STORAGE_KEYS.USER_PROGRESS, progressData)
+      return true
     } catch (error) {
-      console.error('保存用户进度失败', error)
-      throw error
+      console.error('保存用户进度失败:', error)
+      return false
     }
   }
 
   /**
    * 更新单个打卡点状态
-   * @param {string} checkpointId 打卡点ID
-   * @returns {Object} 更新后的进度数据
    */
-  updateCheckpoint(checkpointId) {
+  updateCheckpoint(checkpointId, completionTime = null) {
     try {
-      const progress = this.getProgress()
+      const progress = this.getUserProgress()
       
       // 如果是签到点
       if (checkpointId === 'signin') {
@@ -78,159 +59,159 @@ class Storage {
       // 添加到已完成列表（避免重复）
       if (!progress.completedStamps.includes(checkpointId)) {
         progress.completedStamps.push(checkpointId)
-        
-        // 记录扫描历史
-        this.addScanHistory(checkpointId)
+      }
+      
+      // 更新完成时间
+      if (completionTime) {
+        progress.completionTimes = progress.completionTimes || {}
+        progress.completionTimes[checkpointId] = completionTime
       }
       
       // 检查完成状态
       progress.completionStatus = progress.completedStamps.length === progress.totalStamps
-      progress.lastScanTime = Date.now()
       
-      this.saveProgress(progress)
-      return progress
+      return this.saveUserProgress(progress)
     } catch (error) {
-      console.error('更新打卡点状态失败', error)
-      throw error
+      console.error('更新打卡点状态失败:', error)
+      return false
     }
   }
 
   /**
-   * 添加扫描历史记录
-   * @param {string} checkpointId 打卡点ID
+   * 重置用户进度
    */
-  addScanHistory(checkpointId) {
+  resetUserProgress() {
     try {
-      const history = wx.getStorageSync(STORAGE_KEYS.SCAN_HISTORY) || []
-      const scanRecord = {
-        checkpointId,
-        scanTime: Date.now(),
-        timestamp: new Date().toLocaleString()
-      }
-      
-      history.unshift(scanRecord)
-      
-      // 只保留最近50条记录
-      if (history.length > 50) {
-        history.splice(50)
-      }
-      
-      wx.setStorageSync(STORAGE_KEYS.SCAN_HISTORY, history)
+      wx.removeStorageSync(this.STORAGE_KEYS.USER_PROGRESS)
+      return true
     } catch (error) {
-      console.error('添加扫描历史失败', error)
+      console.error('重置用户进度失败:', error)
+      return false
     }
   }
 
   /**
-   * 获取扫描历史
-   * @returns {Array} 扫描历史记录
+   * 获取默认进度数据
+   */
+  getDefaultProgress() {
+    return {
+      isSignedIn: false,
+      completedStamps: [],
+      totalStamps: 6,
+      completionStatus: false,
+      completionTimes: {},
+      createTime: Date.now(),
+      lastUpdateTime: Date.now()
+    }
+  }
+
+  /**
+   * 获取扫码历史
    */
   getScanHistory() {
     try {
-      return wx.getStorageSync(STORAGE_KEYS.SCAN_HISTORY) || []
+      return wx.getStorageSync(this.STORAGE_KEYS.SCAN_HISTORY) || []
     } catch (error) {
-      console.error('获取扫描历史失败', error)
+      console.error('获取扫码历史失败:', error)
       return []
     }
   }
 
   /**
-   * 检查打卡点是否已完成
-   * @param {string} checkpointId 打卡点ID
-   * @returns {boolean} 是否已完成
+   * 添加扫码记录
    */
-  isCheckpointCompleted(checkpointId) {
-    const progress = this.getProgress()
-    return progress.completedStamps.includes(checkpointId)
-  }
-
-  /**
-   * 检查用户是否已签到
-   * @returns {boolean} 是否已签到
-   */
-  isSignedIn() {
-    const progress = this.getProgress()
-    return progress.isSignedIn
-  }
-
-  /**
-   * 检查是否完成所有打卡
-   * @returns {boolean} 是否已完成
-   */
-  isCompleted() {
-    const progress = this.getProgress()
-    return progress.completionStatus
-  }
-
-  /**
-   * 重置所有进度
-   */
-  resetProgress() {
+  addScanRecord(scanData) {
     try {
-      wx.removeStorageSync(STORAGE_KEYS.USER_PROGRESS)
-      wx.removeStorageSync(STORAGE_KEYS.SCAN_HISTORY)
-      console.log('用户进度已重置')
-    } catch (error) {
-      console.error('重置进度失败', error)
-      throw error
-    }
-  }
-
-  /**
-   * 获取进度统计
-   * @returns {Object} 进度统计信息
-   */
-  getProgressStats() {
-    const progress = this.getProgress()
-    return {
-      totalStamps: progress.totalStamps,
-      completedCount: progress.completedStamps.length,
-      remainingCount: progress.totalStamps - progress.completedStamps.length,
-      percentage: Math.round((progress.completedStamps.length / progress.totalStamps) * 100),
-      isCompleted: progress.completionStatus,
-      isSignedIn: progress.isSignedIn
-    }
-  }
-
-  /**
-   * 导出用户数据
-   * @returns {Object} 导出的用户数据
-   */
-  exportUserData() {
-    try {
-      const progress = this.getProgress()
       const history = this.getScanHistory()
-      
-      return {
-        progress,
-        scanHistory: history,
-        exportTime: Date.now(),
-        exportTimestamp: new Date().toLocaleString()
+      const record = {
+        ...scanData,
+        timestamp: Date.now(),
+        id: Date.now().toString()
       }
+      
+      history.unshift(record)
+      
+      // 只保留最近100条记录
+      if (history.length > 100) {
+        history.splice(100)
+      }
+      
+      wx.setStorageSync(this.STORAGE_KEYS.SCAN_HISTORY, history)
+      return true
     } catch (error) {
-      console.error('导出用户数据失败', error)
-      throw error
+      console.error('添加扫码记录失败:', error)
+      return false
     }
   }
 
   /**
-   * 导入用户数据
-   * @param {Object} userData 用户数据
+   * 获取应用设置
    */
-  importUserData(userData) {
+  getAppSettings() {
     try {
-      if (userData.progress) {
-        this.saveProgress(userData.progress)
-      }
-      
-      if (userData.scanHistory) {
-        wx.setStorageSync(STORAGE_KEYS.SCAN_HISTORY, userData.scanHistory)
-      }
-      
-      console.log('用户数据导入成功')
+      return wx.getStorageSync(this.STORAGE_KEYS.APP_SETTINGS) || this.getDefaultSettings()
     } catch (error) {
-      console.error('导入用户数据失败', error)
-      throw error
+      console.error('获取应用设置失败:', error)
+      return this.getDefaultSettings()
+    }
+  }
+
+  /**
+   * 保存应用设置
+   */
+  saveAppSettings(settings) {
+    try {
+      wx.setStorageSync(this.STORAGE_KEYS.APP_SETTINGS, settings)
+      return true
+    } catch (error) {
+      console.error('保存应用设置失败:', error)
+      return false
+    }
+  }
+
+  /**
+   * 获取默认设置
+   */
+  getDefaultSettings() {
+    return {
+      enableVibration: true,
+      enableSound: true,
+      enableNotification: true,
+      theme: 'light',
+      language: 'zh-CN'
+    }
+  }
+
+  /**
+   * 清除所有数据
+   */
+  clearAllData() {
+    try {
+      Object.values(this.STORAGE_KEYS).forEach(key => {
+        wx.removeStorageSync(key)
+      })
+      return true
+    } catch (error) {
+      console.error('清除数据失败:', error)
+      return false
+    }
+  }
+
+  /**
+   * 获取存储信息
+   */
+  getStorageInfo() {
+    try {
+      const info = wx.getStorageInfoSync()
+      return {
+        keys: info.keys,
+        currentSize: info.currentSize,
+        limitSize: info.limitSize,
+        usage: (info.currentSize / info.limitSize * 100).toFixed(2) + '%'
+      }
+    } catch (error) {
+      console.error('获取存储信息失败:', error)
+      return null
     }
   }
 }
@@ -238,5 +219,4 @@ class Storage {
 // 创建单例实例
 const storage = new Storage()
 
-// 导出
-module.exports = { storage }
+module.exports = storage

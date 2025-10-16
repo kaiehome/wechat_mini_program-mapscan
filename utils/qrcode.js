@@ -1,262 +1,270 @@
 // utils/qrcode.js
-// 二维码处理工具类
 
-class QRCode {
+/**
+ * 二维码处理工具类
+ */
+class QRCodeUtils {
   constructor() {
-    // 二维码生成配置
-    this.config = {
-      size: 200,
-      margin: 10,
-      color: '#000000',
-      backgroundColor: '#ffffff'
+    // 二维码内容格式定义
+    this.QR_FORMATS = {
+      CHECKPOINT: 'checkpoint',  // 标准格式: checkpoint:id
+      DIRECT: 'direct',          // 直接格式: id
+      JSON: 'json'              // JSON格式: {"type":"checkpoint","id":"signin"}
     }
-  }
 
-  /**
-   * 生成打卡点二维码数据
-   * @param {string} checkpointId 打卡点ID
-   * @param {Object} options 可选配置
-   * @returns {string} 二维码数据
-   */
-  generateCheckpointQR(checkpointId, options = {}) {
-    try {
-      const qrData = {
-        checkpointId: checkpointId,
-        timestamp: Date.now(),
-        version: '1.0',
-        app: '廉洁探索之旅',
-        ...options
-      }
-
-      return JSON.stringify(qrData)
-    } catch (error) {
-      console.error('生成二维码数据失败', error)
-      throw error
-    }
-  }
-
-  /**
-   * 生成所有打卡点的二维码数据
-   * @returns {Object} 所有打卡点的二维码数据
-   */
-  generateAllCheckpointQRs() {
-    const checkpoints = [
-      { id: 'signin', name: '寻根·霜降廉养', type: 'signin' },
-      { id: 'esports', name: '笃行·电竞廉规', type: 'checkpoint' },
-      { id: 'coffee', name: '省身·啡香廉思', type: 'checkpoint' },
-      { id: 'makeup', name: '正容·美妆廉仪', type: 'checkpoint' },
-      { id: 'sleep', name: '静悟·清风入梦', type: 'checkpoint' },
-      { id: 'breeze', name: '沁心·清风廉饮', type: 'checkpoint' }
+    // 支持的打卡点ID列表
+    this.VALID_CHECKPOINT_IDS = [
+      'signin',    // 签到点
+      'esports',   // 电竞区
+      'coffee',    // 咖啡区
+      'makeup',    // 美妆区
+      'sleep',     // 睡眠区
+      'breeze'     // 清风区
     ]
-
-    const qrDataList = {}
-    
-    checkpoints.forEach(checkpoint => {
-      qrDataList[checkpoint.id] = {
-        qrData: this.generateCheckpointQR(checkpoint.id, {
-          name: checkpoint.name,
-          type: checkpoint.type
-        }),
-        checkpoint: checkpoint
-      }
-    })
-
-    return qrDataList
   }
 
   /**
-   * 验证二维码格式
-   * @param {string} qrData 二维码数据
-   * @returns {boolean} 是否为有效格式
+   * 解析二维码内容
    */
-  validateQRFormat(qrData) {
+  parseQRCode(qrContent) {
+    if (!qrContent || typeof qrContent !== 'string') {
+      return this.createErrorResult('无效的二维码内容')
+    }
+
     try {
-      if (!qrData || typeof qrData !== 'string') {
-        return false
+      // 尝试JSON格式解析
+      if (this.isJSONFormat(qrContent)) {
+        return this.parseJSONFormat(qrContent)
       }
 
-      // 尝试JSON解析
-      const parsed = JSON.parse(qrData)
-      
-      // 检查必要字段
-      const requiredFields = ['checkpointId', 'timestamp', 'version', 'app']
-      return requiredFields.every(field => field in parsed)
+      // 尝试标准格式解析
+      if (this.isStandardFormat(qrContent)) {
+        return this.parseStandardFormat(qrContent)
+      }
+
+      // 尝试直接格式解析
+      if (this.isDirectFormat(qrContent)) {
+        return this.parseDirectFormat(qrContent)
+      }
+
+      return this.createErrorResult('不支持的二维码格式')
+
     } catch (error) {
-      // JSON解析失败，检查是否为简单的ID
-      const simpleIds = ['signin', 'esports', 'coffee', 'makeup', 'sleep', 'breeze']
-      return simpleIds.includes(qrData.trim())
+      console.error('解析二维码失败:', error)
+      return this.createErrorResult('解析二维码时发生错误')
     }
   }
 
   /**
-   * 解析二维码数据
-   * @param {string} qrData 二维码数据
-   * @returns {Object|null} 解析后的数据
+   * 检查是否为JSON格式
    */
-  parseQRData(qrData) {
+  isJSONFormat(content) {
     try {
-      if (!qrData) {
-        return null
-      }
-
-      // 尝试JSON解析
-      try {
-        const parsed = JSON.parse(qrData)
-        if (this.validateQRFormat(qrData)) {
-          return parsed
-        }
-      } catch (e) {
-        // JSON解析失败，检查是否为简单ID
-        const simpleId = qrData.trim()
-        const validIds = ['signin', 'esports', 'coffee', 'makeup', 'sleep', 'breeze']
-        
-        if (validIds.includes(simpleId)) {
-          return {
-            checkpointId: simpleId,
-            timestamp: Date.now(),
-            version: '1.0',
-            app: '廉洁探索之旅'
-          }
-        }
-      }
-
-      return null
-    } catch (error) {
-      console.error('解析二维码数据失败', error)
-      return null
-    }
-  }
-
-  /**
-   * 检查二维码是否过期
-   * @param {Object} qrData 二维码数据
-   * @param {number} expireTime 过期时间（毫秒）
-   * @returns {boolean} 是否过期
-   */
-  isQRExpired(qrData, expireTime = 24 * 60 * 60 * 1000) { // 默认24小时过期
-    try {
-      if (!qrData || !qrData.timestamp) {
-        return false // 没有时间戳，认为不过期
-      }
-
-      const currentTime = Date.now()
-      const qrTime = qrData.timestamp
-      
-      return (currentTime - qrTime) > expireTime
-    } catch (error) {
-      console.error('检查二维码过期时间失败', error)
+      const parsed = JSON.parse(content)
+      return parsed && typeof parsed === 'object'
+    } catch {
       return false
     }
   }
 
   /**
-   * 获取二维码信息
-   * @param {string} qrData 二维码数据
-   * @returns {Object} 二维码信息
+   * 解析JSON格式
    */
-  getQRInfo(qrData) {
+  parseJSONFormat(content) {
     try {
-      const parsed = this.parseQRData(qrData)
+      const data = JSON.parse(content)
       
-      if (!parsed) {
-        return {
-          valid: false,
-          message: '无效的二维码'
-        }
+      if (data.type === 'checkpoint' && data.id) {
+        return this.validateCheckpoint(data.id)
       }
-
-      const checkpointNames = {
-        'signin': '寻根·霜降廉养',
-        'esports': '笃行·电竞廉规',
-        'coffee': '省身·啡香廉思',
-        'makeup': '正容·美妆廉仪',
-        'sleep': '静悟·清风入梦',
-        'breeze': '沁心·清风廉饮'
-      }
-
-      return {
-        valid: true,
-        checkpointId: parsed.checkpointId,
-        checkpointName: checkpointNames[parsed.checkpointId] || '未知点位',
-        type: parsed.type || 'checkpoint',
-        timestamp: parsed.timestamp,
-        app: parsed.app,
-        isExpired: this.isQRExpired(parsed),
-        scanTime: Date.now()
-      }
+      
+      return this.createErrorResult('无效的JSON格式')
     } catch (error) {
-      console.error('获取二维码信息失败', error)
+      return this.createErrorResult('JSON解析失败')
+    }
+  }
+
+  /**
+   * 检查是否为标准格式 (checkpoint:id)
+   */
+  isStandardFormat(content) {
+    return content.includes(':') && content.split(':').length === 2
+  }
+
+  /**
+   * 解析标准格式
+   */
+  parseStandardFormat(content) {
+    const parts = content.split(':')
+    const type = parts[0].toLowerCase()
+    const id = parts[1]
+
+    if (type === 'checkpoint') {
+      return this.validateCheckpoint(id)
+    }
+
+    return this.createErrorResult('不支持的二维码类型')
+  }
+
+  /**
+   * 检查是否为直接格式 (直接是ID)
+   */
+  isDirectFormat(content) {
+    return this.VALID_CHECKPOINT_IDS.includes(content.toLowerCase())
+  }
+
+  /**
+   * 解析直接格式
+   */
+  parseDirectFormat(content) {
+    return this.validateCheckpoint(content)
+  }
+
+  /**
+   * 验证打卡点ID
+   */
+  validateCheckpoint(checkpointId) {
+    const id = checkpointId.toLowerCase().trim()
+    
+    if (!this.VALID_CHECKPOINT_IDS.includes(id)) {
+      return this.createErrorResult(`无效的打卡点ID: ${checkpointId}`)
+    }
+
+    return this.createSuccessResult({
+      type: 'checkpoint',
+      id: id,
+      format: this.detectFormat(checkpointId)
+    })
+  }
+
+  /**
+   * 检测二维码格式
+   */
+  detectFormat(content) {
+    if (this.isJSONFormat(content)) return this.QR_FORMATS.JSON
+    if (this.isStandardFormat(content)) return this.QR_FORMATS.CHECKPOINT
+    if (this.isDirectFormat(content)) return this.QR_FORMATS.DIRECT
+    return 'unknown'
+  }
+
+  /**
+   * 生成二维码内容
+   */
+  generateQRContent(checkpointId, format = this.QR_FORMATS.STANDARD) {
+    if (!this.VALID_CHECKPOINT_IDS.includes(checkpointId)) {
+      throw new Error('无效的打卡点ID')
+    }
+
+    switch (format) {
+      case this.QR_FORMATS.CHECKPOINT:
+        return `checkpoint:${checkpointId}`
+      
+      case this.QR_FORMATS.JSON:
+        return JSON.stringify({
+          type: 'checkpoint',
+          id: checkpointId,
+          timestamp: Date.now(),
+          app: 'wechat_mini_program-mapscan'
+        })
+      
+      case this.QR_FORMATS.DIRECT:
+        return checkpointId
+      
+      default:
+        return `checkpoint:${checkpointId}`
+    }
+  }
+
+  /**
+   * 创建成功结果
+   */
+  createSuccessResult(data) {
+    return {
+      success: true,
+      data: data,
+      error: null
+    }
+  }
+
+  /**
+   * 创建错误结果
+   */
+  createErrorResult(message) {
+    return {
+      success: false,
+      data: null,
+      error: message
+    }
+  }
+
+  /**
+   * 获取打卡点信息
+   */
+  getCheckpointInfo(checkpointId) {
+    const checkpointMap = {
+      signin: {
+        name: '寻根·霜降廉养',
+        area: '手工区',
+        description: '用户在手工区扫描二维码打卡，加盖"寻根·霜降廉养"电子印章，正式开启廉洁探索之旅。'
+      },
+      esports: {
+        name: '笃行·电竞廉规',
+        area: '电竞区',
+        description: '用户在电竞区扫描二维码打卡，加盖"笃行·电竞廉规"电子印章，强化对廉洁规则的践行意识。'
+      },
+      coffee: {
+        name: '省身·啡香廉思',
+        area: '咖啡区',
+        description: '用户在咖啡区扫描二维码打卡，加盖"省身·啡香廉思"电子印章。'
+      },
+      makeup: {
+        name: '正容·美妆廉仪',
+        area: '美妆区',
+        description: '用户在美妆区扫描二维码打卡，加盖"正容·美妆廉仪"电子印章，展现廉洁风采。'
+      },
+      sleep: {
+        name: '静悟·清风入梦',
+        area: '睡眠区',
+        description: '用户在睡眠区扫描二维码打卡，加盖"静悟·清风入梦"电子印章，在宁静中领悟廉洁真谛。'
+      },
+      breeze: {
+        name: '沁心·清风廉饮',
+        area: '空调区',
+        description: '用户在清风区扫描二维码打卡，加盖"沁心·清风廉饮"电子印章，完成所有打卡行程。'
+      }
+    }
+
+    return checkpointMap[checkpointId] || null
+  }
+
+  /**
+   * 验证用户是否可以扫描该二维码
+   */
+  validateScanPermission(checkpointId, userProgress) {
+    // 如果已扫描过该点位
+    if (userProgress.completedStamps.includes(checkpointId)) {
       return {
         valid: false,
-        message: '解析二维码失败'
+        message: '您已经完成该点位的打卡'
       }
     }
-  }
 
-  /**
-   * 生成二维码分享链接
-   * @param {string} checkpointId 打卡点ID
-   * @returns {string} 分享链接
-   */
-  generateShareLink(checkpointId) {
-    try {
-      const baseUrl = 'https://example.com/checkpoint'
-      const params = new URLSearchParams({
-        id: checkpointId,
-        t: Date.now()
-      })
-      
-      return `${baseUrl}?${params.toString()}`
-    } catch (error) {
-      console.error('生成分享链接失败', error)
-      return ''
+    // 如果扫描的不是签到点，但用户未签到
+    if (checkpointId !== 'signin' && !userProgress.isSignedIn) {
+      return {
+        valid: false,
+        message: '请首先扫描签到二维码完成签到'
+      }
     }
-  }
 
-  /**
-   * 批量生成二维码数据（用于管理后台）
-   * @param {Array} checkpoints 打卡点列表
-   * @returns {Object} 批量生成的二维码数据
-   */
-  batchGenerateQRs(checkpoints) {
-    try {
-      const result = {}
-      
-      checkpoints.forEach(checkpoint => {
-        result[checkpoint.id] = {
-          qrData: this.generateCheckpointQR(checkpoint.id, {
-            name: checkpoint.name,
-            type: checkpoint.type,
-            location: checkpoint.location
-          }),
-          shareLink: this.generateShareLink(checkpoint.id),
-          checkpoint: checkpoint
-        }
-      })
-
-      return result
-    } catch (error) {
-      console.error('批量生成二维码失败', error)
-      throw error
-    }
-  }
-
-  /**
-   * 导出二维码配置
-   * @returns {Object} 二维码配置信息
-   */
-  exportConfig() {
     return {
-      config: this.config,
-      checkpoints: this.generateAllCheckpointQRs(),
-      exportTime: Date.now(),
-      version: '1.0'
+      valid: true,
+      message: '可以扫描'
     }
   }
 }
 
 // 创建单例实例
-const qrcode = new QRCode()
+const qrCodeUtils = new QRCodeUtils()
 
-// 导出
-module.exports = { qrcode }
+module.exports = qrCodeUtils

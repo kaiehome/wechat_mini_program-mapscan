@@ -1,5 +1,5 @@
 {
-  "description": "微信小程序 - 廉洁探索之旅扫码打卡集赞",
+  "description": "微信小程序打卡集章项目",
   "packOptions": {
     "ignore": [],
     "include": []
@@ -47,9 +47,9 @@
     "disableSWC": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.19.4",
+  "libVersion": "3.10.2",
   "appid": "wxae2458a3fc71361e",
-  "projectname": "廉洁探索之旅",
+  "projectname": "wechat_mini_program-mapscan",
   "isGameTourist": false,
   "condition": {
     "search": {

@@ -1,137 +1,264 @@
 // pages/stamps/stamps.js
-const { storage } = require('../../utils/storage.js')
-const { checkpoints } = require('../../data/checkpoints.js')
+const app = getApp()
 
 Page({
   data: {
+    // 用户进度
     userProgress: {
       isSignedIn: false,
       completedStamps: [],
       totalStamps: 6,
       completionStatus: false
     },
+    
+    // 打卡点数据
+    checkpoints: [],
+    
+    // 印章展示相关
     stamps: [],
-    showStampDetail: false,
-    selectedStamp: null,
-    checkpoints: []
+    showAnimation: false,
+    animationStamp: null,
+    
+    // 统计信息
+    statistics: {
+      completed: 0,
+      remaining: 6,
+      completionRate: 0
+    }
   },
 
   onLoad() {
+    this.initData()
     this.loadUserProgress()
-    this.initStamps()
-    this.setData({ checkpoints })
   },
 
   onShow() {
     this.loadUserProgress()
-    this.initStamps()
+    this.updateStampsDisplay()
   },
 
-  // 加载用户打卡进度
+  // 初始化数据
+  initData() {
+    this.setData({
+      checkpoints: app.globalData.checkpoints
+    })
+  },
+
+  // 加载用户进度
   loadUserProgress() {
-    const progress = storage.getProgress()
-    this.setData({ userProgress: progress })
+    try {
+      const progress = wx.getStorageSync('userProgress')
+      if (progress) {
+        this.setData({ userProgress: progress })
+        this.updateStatistics(progress)
+      }
+    } catch (error) {
+      console.error('加载用户进度失败:', error)
+    }
   },
 
-  // 初始化印章数据
-  initStamps() {
-    const stamps = checkpoints.map(checkpoint => ({
-      ...checkpoint,
-      isCompleted: this.data.userProgress.completedStamps.includes(checkpoint.id),
-      completionTime: this.getCompletionTime(checkpoint.id)
-    }))
+  // 更新统计信息
+  updateStatistics(progress) {
+    const completed = progress.completedStamps.length
+    const remaining = progress.totalStamps - completed
+    const completionRate = (completed / progress.totalStamps) * 100
+
+    this.setData({
+      statistics: {
+        completed,
+        remaining,
+        completionRate
+      }
+    })
+  },
+
+  // 更新印章展示
+  updateStampsDisplay() {
+    const stamps = this.data.checkpoints.map(checkpoint => {
+      const isCompleted = this.data.userProgress.completedStamps.includes(checkpoint.id)
+      return {
+        ...checkpoint,
+        isCompleted,
+        completionTime: this.getCompletionTime(checkpoint.id)
+      }
+    })
 
     this.setData({ stamps })
   },
 
-  // 获取完成时间（模拟数据）
+  // 获取完成时间
   getCompletionTime(checkpointId) {
-    // 这里可以从存储中获取实际的完成时间
-    const isCompleted = this.data.userProgress.completedStamps.includes(checkpointId)
-    return isCompleted ? new Date().toLocaleString() : null
+    try {
+      const progressData = wx.getStorageSync('userProgress')
+      // 这里可以从更详细的数据中获取时间，暂时返回模拟数据
+      return new Date().toLocaleString()
+    } catch (error) {
+      return '未知时间'
+    }
   },
 
   // 印章点击事件
   onStampTap(e) {
-    const stampId = e.currentTarget.dataset.id
+    const stampId = e.currentTarget.dataset.stampId
     const stamp = this.data.stamps.find(s => s.id === stampId)
-    
+
     if (stamp) {
+      this.showStampDetail(stamp)
+    }
+  },
+
+  // 显示印章详情
+  showStampDetail(stamp) {
+    const statusText = stamp.isCompleted ? '已收集' : '未收集'
+    const statusColor = stamp.isCompleted ? '#4CAF50' : '#FF9800'
+    
+    wx.showModal({
+      title: stamp.name,
+      content: `${stamp.description}\n\n状态: ${statusText}\n${stamp.isCompleted ? `完成时间: ${stamp.completionTime}` : ''}`,
+      showCancel: stamp.isCompleted,
+      cancelText: stamp.isCompleted ? '分享' : '',
+      confirmText: stamp.isCompleted ? '确定' : '去打卡',
+      success: (res) => {
+        if (res.confirm && !stamp.isCompleted) {
+          // 跳转到扫码页面
+          wx.switchTab({
+            url: '/pages/scan/scan'
+          })
+        } else if (res.cancel && stamp.isCompleted) {
+          // 分享印章
+          this.shareStamp(stamp)
+        }
+      }
+    })
+  },
+
+  // 分享印章
+  shareStamp(stamp) {
+    wx.showActionSheet({
+      itemList: ['分享到微信', '保存到相册'],
+      success: (res) => {
+        if (res.tapIndex === 0) {
+          // 分享到微信
+          this.shareToWeChat(stamp)
+        } else if (res.tapIndex === 1) {
+          // 保存到相册
+          this.saveToAlbum(stamp)
+        }
+      }
+    })
+  },
+
+  // 分享到微信
+  shareToWeChat(stamp) {
+    wx.showToast({
+      title: '分享功能开发中',
+      icon: 'none'
+    })
+  },
+
+  // 保存到相册
+  saveToAlbum(stamp) {
+    wx.showToast({
+      title: '保存功能开发中',
+      icon: 'none'
+    })
+  },
+
+  // 播放印章动画
+  playStampAnimation(stamp) {
+    this.setData({
+      showAnimation: true,
+      animationStamp: stamp
+    })
+
+    // 3秒后隐藏动画
+    setTimeout(() => {
       this.setData({
-        selectedStamp: stamp,
-        showStampDetail: true
+        showAnimation: false,
+        animationStamp: null
+      })
+    }, 3000)
+  },
+
+  // 查看完成情况
+  viewCompletionStatus() {
+    const progress = this.data.userProgress
+    
+    if (progress.completionStatus) {
+      wx.showModal({
+        title: '🏆 恭喜完成！',
+        content: '您已成功集齐所有电子印章！\n\n请前往签到处（手工区）领取奖品。',
+        confirmText: '我知道了',
+        showCancel: false
+      })
+    } else {
+      const remaining = progress.totalStamps - progress.completedStamps.length
+      wx.showModal({
+        title: '继续努力',
+        content: `您已完成 ${progress.completedStamps.length} 个点位\n还有 ${remaining} 个点位等待探索`,
+        confirmText: '去打卡',
+        cancelText: '查看地图',
+        success: (res) => {
+          if (res.confirm) {
+            wx.switchTab({
+              url: '/pages/scan/scan'
+            })
+          } else if (res.cancel) {
+            wx.switchTab({
+              url: '/pages/index/index'
+            })
+          }
+        }
       })
     }
   },
 
-  // 关闭印章详情
-  closeStampDetail() {
-    this.setData({
-      showStampDetail: false,
-      selectedStamp: null
+  // 重置进度
+  resetProgress() {
+    wx.showModal({
+      title: '重置进度',
+      content: '确定要重置所有打卡进度吗？此操作不可撤销。',
+      success: (res) => {
+        if (res.confirm) {
+          try {
+            wx.removeStorageSync('userProgress')
+            this.setData({
+              userProgress: {
+                isSignedIn: false,
+                completedStamps: [],
+                totalStamps: 6,
+                completionStatus: false
+              }
+            })
+            this.updateStatistics(this.data.userProgress)
+            this.updateStampsDisplay()
+            wx.showToast({
+              title: '重置成功',
+              icon: 'success'
+            })
+          } catch (error) {
+            console.error('重置失败:', error)
+            wx.showToast({
+              title: '重置失败',
+              icon: 'error'
+            })
+          }
+        }
+      }
     })
   },
 
-  // 返回地图页面
+  // 跳转到地图
   goToMap() {
     wx.switchTab({
       url: '/pages/index/index'
     })
   },
 
-  // 开始扫码
-  startScan() {
+  // 跳转到扫码
+  goToScan() {
     wx.switchTab({
       url: '/pages/scan/scan'
-    })
-  },
-
-  // 分享功能
-  onShareAppMessage() {
-    const progress = this.data.userProgress
-    const completedCount = progress.completedStamps.length
-    const totalCount = progress.totalStamps
-
-    return {
-      title: `我在廉洁探索之旅中已收集 ${completedCount}/${totalCount} 个电子印章！`,
-      path: '/pages/index/index',
-      imageUrl: '/images/share-bg.png'
-    }
-  },
-
-  // 重置进度（仅用于测试）
-  resetProgress() {
-    wx.showModal({
-      title: '确认重置',
-      content: '确定要重置所有打卡进度吗？此操作不可恢复。',
-      success: (res) => {
-        if (res.confirm) {
-          storage.resetProgress()
-          this.loadUserProgress()
-          this.initStamps()
-          wx.showToast({
-            title: '进度已重置',
-            icon: 'success'
-          })
-        }
-      }
-    })
-  },
-
-  // 导出进度
-  exportProgress() {
-    const progress = this.data.userProgress
-    const progressData = {
-      completedStamps: progress.completedStamps,
-      totalStamps: progress.totalStamps,
-      completionStatus: progress.completionStatus,
-      exportTime: new Date().toLocaleString()
-    }
-
-    // 这里可以实现进度导出功能
-    wx.showToast({
-      title: '进度导出功能开发中',
-      icon: 'none'
     })
   }
 })

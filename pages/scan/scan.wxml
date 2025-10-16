@@ -1,76 +1,80 @@
 <!--pages/scan/scan.wxml-->
-<view class="scan-container">
-  <!-- 扫码提示区域 -->
-  <view class="scan-header">
-    <view class="scan-title">廉洁探索之旅</view>
-    <view class="scan-subtitle">扫描二维码开始打卡集赞</view>
-  </view>
-
-  <!-- 扫码按钮区域 -->
-  <view class="scan-content">
-    <view class="scan-icon">
-      <image src="/images/icons/scan-large.png" class="scan-image"></image>
-    </view>
+<view class="container">
+  <!-- 扫码区域 -->
+  <view class="scan-section">
+    <view class="scan-title">扫描二维码打卡</view>
+    <view class="scan-description">请将二维码放入框内进行扫描</view>
     
-    <button 
-      class="scan-button {{isScanning ? 'scanning' : ''}}" 
-      bindtap="startScan"
-      disabled="{{isScanning}}">
-      <view wx:if="{{!isScanning}}">点击开始扫码</view>
-      <view wx:else>正在扫码...</view>
-    </button>
-
-    <view class="scan-tips">
-      <view class="tip-item">• 请将二维码放入框内</view>
-      <view class="tip-item">• 确保光线充足</view>
-      <view class="tip-item">• 保持手机稳定</view>
-    </view>
-  </view>
-
-  <!-- 进度显示区域 -->
-  <view class="progress-section">
-    <view class="progress-title">打卡进度</view>
-    <view class="progress-info">
-      <text class="progress-text">
-        已完成 {{userProgress.completedStamps.length}} / {{userProgress.totalStamps}} 个点位
-      </text>
-    </view>
-    
-    <view class="progress-bar">
-      <view 
-        class="progress-fill" 
-        style="width: {{(userProgress.completedStamps.length / userProgress.totalStamps) * 100}}%">
-      </view>
-    </view>
-
-    <view class="checkpoint-status">
-      <view 
-        class="status-item {{userProgress.completedStamps.includes(item.id) ? 'completed' : 'pending'}}"
-        wx:for="{{checkpoints}}" 
-        wx:key="id">
-        <view class="status-icon">
-          <image src="{{userProgress.completedStamps.includes(item.id) ? '/images/icons/check.png' : '/images/icons/circle.png'}}"></image>
+    <!-- 扫码按钮 -->
+    <view class="scan-button-container">
+      <button 
+        class="scan-button {{isScanning ? 'scanning' : ''}}" 
+        bindtap="startScan"
+        disabled="{{isScanning}}">
+        <view class="scan-icon">
+          <image 
+            src="{{isScanning ? '/images/icons/scanning.png' : '/images/icons/scan.png'}}" 
+            class="icon">
+          </image>
         </view>
-        <text class="status-name">{{item.name}}</text>
+        <view class="scan-text">
+          {{isScanning ? '正在扫描...' : '开始扫码'}}
+        </view>
+      </button>
+    </view>
+
+    <!-- 扫码结果 -->
+    <view class="scan-result" wx:if="{{scanResult}}">
+      <view class="result-title">扫码结果</view>
+      <view class="result-content">{{scanResult}}</view>
+    </view>
+  </view>
+
+  <!-- 当前进度 -->
+  <view class="progress-section">
+    <view class="progress-title">当前进度</view>
+    <view class="progress-info">
+      <view class="progress-text">
+        已完成 {{userProgress.completedStamps.length}}/{{userProgress.totalStamps}} 个点位
+      </view>
+      <view class="progress-bar">
+        <view 
+          class="progress-fill" 
+          style="width: {{progressPercentage}}%">
+        </view>
+      </view>
+    </view>
+    
+    <!-- 印章墙 -->
+    <view class="stamps-wall">
+      <view 
+        class="stamp-item {{userProgress.completedStamps.includes(item.id) ? 'completed' : 'uncompleted'}}" 
+        wx:for="{{stamps}}" 
+        wx:key="id">
+        <image class="stamp-image" src="{{item.stampImage}}" mode="aspectFit"></image>
+        <view class="stamp-name">{{item.name}}</view>
       </view>
     </view>
   </view>
 
-  <!-- 操作按钮区域 -->
-  <view class="action-section">
-    <button class="btn-secondary" bindtap="goBack">
-      返回地图
-    </button>
-    <button class="btn-primary" bindtap="viewProgress">
-      查看印章
-    </button>
-  </view>
 
-  <!-- 扫码结果提示 -->
-  <view class="scan-result" wx:if="{{scanResult}}">
-    <view class="result-title">扫码成功！</view>
-    <view class="result-content">
-      已获得对应点位的电子印章
+
+  <!-- 使用说明 -->
+  <view class="instruction-section">
+    <view class="instruction-title">使用说明</view>
+    <view class="instruction-content">
+      <view class="instruction-item">
+        <view class="item-number">1</view>
+        <view class="item-text">首先扫描「寻根·霜降廉养」签到码</view>
+      </view>
+      <view class="instruction-item">
+        <view class="item-number">2</view>
+        <view class="item-text">然后按任意顺序扫描其他5个点位</view>
+      </view>
+      <view class="instruction-item">
+        <view class="item-number">3</view>
+        <view class="item-text">集齐所有电子印章后即可领取奖品</view>
+      </view>
     </view>
   </view>
 </view>

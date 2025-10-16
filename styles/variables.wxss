@@ -1,89 +1,117 @@
 /* styles/variables.wxss */
-/* 样式变量定义 */
 
-/* 主色调 */
-page {
+/* 颜色变量 */
+:root {
+  /* 主色调 */
   --primary-color: #4CAF50;
-  --primary-dark: #45a049;
   --primary-light: #81C784;
+  --primary-dark: #388E3C;
   
   /* 辅助色 */
-  --secondary-color: #FF9800;
-  --accent-color: #2196F3;
+  --secondary-color: #2196F3;
+  --secondary-light: #64B5F6;
+  --secondary-dark: #1976D2;
   
-  /* 文字颜色 */
-  --text-color: #333333;
-  --text-secondary: #666666;
-  --text-disabled: #999999;
-  --text-white: #ffffff;
-  
-  /* 背景色 */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f5f5f5;
-  --bg-tertiary: #f8f8f8;
-  --bg-overlay: rgba(0, 0, 0, 0.5);
-  
-  /* 边框颜色 */
-  --border-color: #e0e0e0;
-  --border-light: #f0f0f0;
-  --border-dark: #cccccc;
-  
-  /* 状态颜色 */
+  /* 状态色 */
   --success-color: #4CAF50;
   --warning-color: #FF9800;
-  --error-color: #F44336;
+  --danger-color: #F44336;
   --info-color: #2196F3;
   
-  /* 阴影 */
-  --shadow-light: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
-  --shadow-medium: 0 4rpx 12rpx rgba(0, 0, 0, 0.15);
-  --shadow-heavy: 0 8rpx 24rpx rgba(0, 0, 0, 0.2);
+  /* 中性色 */
+  --white: #FFFFFF;
+  --black: #000000;
+  --gray-50: #FAFAFA;
+  --gray-100: #F5F5F5;
+  --gray-200: #EEEEEE;
+  --gray-300: #E0E0E0;
+  --gray-400: #BDBDBD;
+  --gray-500: #9E9E9E;
+  --gray-600: #757575;
+  --gray-700: #616161;
+  --gray-800: #424242;
+  --gray-900: #212121;
   
-  /* 圆角 */
-  --radius-small: 8rpx;
-  --radius-medium: 12rpx;
-  --radius-large: 16rpx;
-  --radius-xl: 20rpx;
-  --radius-round: 50rpx;
+  /* 文本色 */
+  --text-primary: #212121;
+  --text-secondary: #757575;
+  --text-disabled: #BDBDBD;
+  --text-hint: #9E9E9E;
   
-  /* 间距 */
+  /* 背景色 */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F5F5F5;
+  --bg-tertiary: #FAFAFA;
+  
+  /* 边框色 */
+  --border-light: #E0E0E0;
+  --border-medium: #BDBDBD;
+  --border-dark: #757575;
+  
+  /* 打卡点颜色 */
+  --checkpoint-signin: #4CAF50;
+  --checkpoint-esports: #2196F3;
+  --checkpoint-coffee: #FF9800;
+  --checkpoint-makeup: #E91E63;
+  --checkpoint-sleep: #9C27B0;
+  --checkpoint-breeze: #00BCD4;
+}
+
+/* 字体大小变量 */
+:root {
+  --font-size-xs: 20rpx;
+  --font-size-sm: 24rpx;
+  --font-size-base: 28rpx;
+  --font-size-lg: 32rpx;
+  --font-size-xl: 36rpx;
+  --font-size-2xl: 40rpx;
+  --font-size-3xl: 48rpx;
+  --font-size-4xl: 56rpx;
+}
+
+/* 间距变量 */
+:root {
   --spacing-xs: 8rpx;
-  --spacing-sm: 12rpx;
-  --spacing-md: 16rpx;
-  --spacing-lg: 20rpx;
-  --spacing-xl: 24rpx;
-  --spacing-xxl: 32rpx;
-  
-  /* 字体大小 */
-  --font-xs: 20rpx;
-  --font-sm: 24rpx;
-  --font-md: 28rpx;
-  --font-lg: 32rpx;
-  --font-xl: 36rpx;
-  --font-xxl: 40rpx;
-  
-  /* 字体粗细 */
-  --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --font-weight-bold: 600;
-  --font-weight-heavy: 700;
-  
-  /* 行高 */
-  --line-height-tight: 1.2;
-  --line-height-normal: 1.4;
-  --line-height-loose: 1.6;
-  
-  /* 动画时间 */
-  --transition-fast: 0.2s;
-  --transition-normal: 0.3s;
-  --transition-slow: 0.5s;
-  
-  /* 动画函数 */
-  --ease-in: cubic-bezier(0.4, 0, 1, 1);
-  --ease-out: cubic-bezier(0, 0, 0.2, 1);
-  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-  
-  /* Z-index层级 */
+  --spacing-sm: 16rpx;
+  --spacing-base: 24rpx;
+  --spacing-lg: 32rpx;
+  --spacing-xl: 40rpx;
+  --spacing-2xl: 48rpx;
+  --spacing-3xl: 56rpx;
+  --spacing-4xl: 64rpx;
+}
+
+/* 圆角变量 */
+:root {
+  --radius-none: 0;
+  --radius-sm: 4rpx;
+  --radius-base: 8rpx;
+  --radius-md: 12rpx;
+  --radius-lg: 16rpx;
+  --radius-xl: 20rpx;
+  --radius-2xl: 24rpx;
+  --radius-full: 50%;
+}
+
+/* 阴影变量 */
+:root {
+  --shadow-sm: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+  --shadow-base: 0 4rpx 16rpx rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 6rpx 24rpx rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 8rpx 32rpx rgba(0, 0, 0, 0.2);
+  --shadow-xl: 0 12rpx 48rpx rgba(0, 0, 0, 0.25);
+}
+
+/* 动画变量 */
+:root {
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  --transition-slower: 0.8s ease;
+}
+
+/* 层级变量 */
+:root {
   --z-index-dropdown: 1000;
   --z-index-sticky: 1020;
   --z-index-fixed: 1030;
@@ -91,61 +119,141 @@ page {
   --z-index-modal: 1050;
   --z-index-popover: 1060;
   --z-index-tooltip: 1070;
+}
+
+/* 组件特定变量 */
+:root {
+  /* 按钮 */
+  --button-height-sm: 60rpx;
+  --button-height-base: 80rpx;
+  --button-height-lg: 100rpx;
+  --button-border-radius: var(--radius-xl);
   
-  /* 打卡点颜色 */
-  --checkpoint-signin: #4CAF50;
-  --checkpoint-esports: #FF9800;
-  --checkpoint-coffee: #9C27B0;
-  --checkpoint-makeup: #E91E63;
-  --checkpoint-sleep: #2196F3;
-  --checkpoint-breeze: #00BCD4;
+  /* 卡片 */
+  --card-padding: var(--spacing-lg);
+  --card-border-radius: var(--radius-xl);
+  --card-shadow: var(--shadow-base);
   
-  /* 印章状态颜色 */
-  --stamp-completed: #4CAF50;
-  --stamp-pending: #FF9800;
-  --stamp-locked: #999999;
+  /* 印章 */
+  --stamp-size-sm: 80rpx;
+  --stamp-size-base: 100rpx;
+  --stamp-size-lg: 120rpx;
+  --stamp-border-width: 4rpx;
   
-  /* 进度条颜色 */
-  --progress-bg: #f0f0f0;
-  --progress-fill: #4CAF50;
-  --progress-text: #666666;
+  /* 进度条 */
+  --progress-height: 20rpx;
+  --progress-border-radius: var(--radius-lg);
   
-  /* 按钮状态 */
-  --btn-primary-bg: #4CAF50;
-  --btn-primary-color: #ffffff;
-  --btn-primary-hover: #45a049;
+  /* 地图 */
+  --map-height: 500rpx;
+  --map-border-radius: var(--radius-xl);
   
-  --btn-secondary-bg: #f5f5f5;
-  --btn-secondary-color: #666666;
-  --btn-secondary-border: #e0e0e0;
+  /* 导航栏 */
+  --navbar-height: 88rpx;
+  --navbar-bg-color: var(--primary-color);
+  --navbar-text-color: var(--white);
   
-  --btn-disabled-bg: #f0f0f0;
-  --btn-disabled-color: #cccccc;
-  
-  /* 卡片样式 */
-  --card-bg: #ffffff;
-  --card-border: #e0e0e0;
-  --card-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.1);
-  
-  /* 输入框样式 */
-  --input-bg: #ffffff;
-  --input-border: #e0e0e0;
-  --input-focus-border: #4CAF50;
-  --input-placeholder: #999999;
-  
-  /* 列表样式 */
-  --list-item-bg: #ffffff;
-  --list-item-border: #f0f0f0;
-  --list-item-hover: #f8f8f8;
-  
-  /* 导航样式 */
-  --nav-bg: #4CAF50;
-  --nav-color: #ffffff;
-  --nav-active-color: #ffffff;
-  
-  /* Tab样式 */
-  --tab-bg: #ffffff;
-  --tab-color: #666666;
-  --tab-active-color: #4CAF50;
-  --tab-border: #f0f0f0;
+  /* 标签栏 */
+  --tabbar-height: 100rpx;
+  --tabbar-bg-color: var(--white);
+  --tabbar-text-color: var(--text-secondary);
+  --tabbar-active-color: var(--primary-color);
+}
+
+/* 响应式断点 */
+:root {
+  --breakpoint-xs: 320px;
+  --breakpoint-sm: 375px;
+  --breakpoint-md: 414px;
+  --breakpoint-lg: 768px;
+  --breakpoint-xl: 1024px;
+}
+
+/* 深色主题变量 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #121212;
+    --bg-secondary: #1E1E1E;
+    --bg-tertiary: #2C2C2C;
+    
+    --text-primary: #FFFFFF;
+    --text-secondary: #B3B3B3;
+    --text-disabled: #666666;
+    --text-hint: #999999;
+    
+    --border-light: #333333;
+    --border-medium: #555555;
+    --border-dark: #777777;
+  }
+}
+
+/* 打卡点主题色类 */
+.checkpoint-signin {
+  color: var(--checkpoint-signin);
+}
+
+.checkpoint-esports {
+  color: var(--checkpoint-esports);
+}
+
+.checkpoint-coffee {
+  color: var(--checkpoint-coffee);
+}
+
+.checkpoint-makeup {
+  color: var(--checkpoint-makeup);
+}
+
+.checkpoint-sleep {
+  color: var(--checkpoint-sleep);
+}
+
+.checkpoint-breeze {
+  color: var(--checkpoint-breeze);
+}
+
+/* 打卡点背景色类 */
+.bg-checkpoint-signin {
+  background-color: var(--checkpoint-signin);
+}
+
+.bg-checkpoint-esports {
+  background-color: var(--checkpoint-esports);
+}
+
+.bg-checkpoint-coffee {
+  background-color: var(--checkpoint-coffee);
+}
+
+.bg-checkpoint-makeup {
+  background-color: var(--checkpoint-makeup);
+}
+
+.bg-checkpoint-sleep {
+  background-color: var(--checkpoint-sleep);
+}
+
+.bg-checkpoint-breeze {
+  background-color: var(--checkpoint-breeze);
+}
+
+/* 渐变背景 */
+.gradient-primary {
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+}
+
+.gradient-secondary {
+  background: linear-gradient(135deg, var(--secondary-color), var(--secondary-dark));
+}
+
+.gradient-success {
+  background: linear-gradient(135deg, var(--success-color), #2E7D32);
+}
+
+.gradient-warning {
+  background: linear-gradient(135deg, var(--warning-color), #F57C00);
+}
+
+.gradient-danger {
+  background: linear-gradient(135deg, var(--danger-color), #C62828);
 }

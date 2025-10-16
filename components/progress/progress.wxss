@@ -1,26 +1,19 @@
 /* components/progress/progress.wxss */
-.progress-component {
+.progress-container {
   width: 100%;
 }
 
-/* 进度文字 */
 .progress-text {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16rpx;
+  margin-bottom: 15rpx;
 }
 
-.progress-label {
+.progress-info {
   font-size: 28rpx;
-  font-weight: 500;
-  color: #333;
-}
-
-.progress-count {
-  font-size: 24rpx;
+  font-weight: bold;
   color: #4CAF50;
-  font-weight: 600;
 }
 
 .progress-percentage {
@@ -28,84 +21,43 @@
   color: #666;
 }
 
-/* 进度条容器 */
-.progress-container {
-  position: relative;
-  width: 100%;
-  border-radius: 8rpx;
-  overflow: hidden;
-}
-
-.progress-bg {
-  width: 100%;
-  border-radius: 8rpx;
-  background-color: #f0f0f0;
-}
-
 .progress-bar {
+  width: 100%;
+  height: 20rpx;
+  background-color: #E0E0E0;
+  border-radius: 10rpx;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 10rpx;
+  transition: width 0.8s ease;
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
-  border-radius: 8rpx;
-  background-color: #4CAF50;
-  transition: width 0.5s ease-out;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: shimmer 2s infinite;
 }
 
-.progress-bar.animated {
-  transition: width 0.5s ease-out;
-}
-
-/* 完成状态提示 */
-.completion-hint {
-  text-align: center;
-  margin-top: 20rpx;
-  padding: 16rpx;
-  background: linear-gradient(135deg, #4CAF50, #45a049);
-  border-radius: 12rpx;
-  animation: pulse 2s infinite;
-}
-
-.hint-text {
-  color: white;
-  font-size: 26rpx;
-  font-weight: 600;
-}
-
-@keyframes pulse {
+@keyframes shimmer {
   0% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
-  }
-  70% {
-    transform: scale(1.02);
-    box-shadow: 0 0 0 10rpx rgba(76, 175, 80, 0);
+    transform: translateX(-100%);
   }
   100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+    transform: translateX(100%);
   }
-}
-
-/* 不同尺寸的进度条 */
-.progress-component.size-small .progress-text {
-  margin-bottom: 8rpx;
-}
-
-.progress-component.size-small .progress-label,
-.progress-component.size-small .progress-count,
-.progress-component.size-small .progress-percentage {
-  font-size: 20rpx;
-}
-
-.progress-component.size-large .progress-text {
-  margin-bottom: 24rpx;
-}
-
-.progress-component.size-large .progress-label {
-  font-size: 32rpx;
-}
-
-.progress-component.size-large .progress-count,
-.progress-component.size-large .progress-percentage {
-  font-size: 28rpx;
 }

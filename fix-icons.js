@@ -1,77 +1,127 @@
-// fix-icons.js
-// 快速修复图标文件的脚本
+// fix-icons.js - 图标文件修复脚本
+// 用于创建缺失的图标文件，避免 app.json 配置错误
 
-const fs = require('fs')
-const path = require('path')
+const fs = require('fs');
+const path = require('path');
 
-console.log('🔧 修复图标文件...')
+console.log('🔧 开始修复图标文件...');
 
-// 创建简单的SVG图标内容
-function createSVGIcon(content, color = '#666666') {
-  return `<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-    <rect width="64" height="64" fill="white"/>
-    <text x="32" y="40" font-family="Arial, sans-serif" font-size="24" fill="${color}" text-anchor="middle">${content}</text>
-  </svg>`
-}
+const iconsDir = path.join(__dirname, 'images', 'icons');
 
-// 创建PNG占位文件（实际项目中应该使用真实图片）
-function createPlaceholderPNG(filename, description) {
-  const content = `# ${description}
-# 这是一个占位文件，请替换为实际的64x64像素PNG图标
-# 
-# 当前状态：占位文件
-# 文件大小：应该小于10KB
-# 格式：PNG with transparency
-# 尺寸：64x64 pixels
-# 
-# 建议：
-# 1. 使用微信小程序官方图标库
-# 2. 或者使用设计工具创建自定义图标
-# 3. 确保图标在小尺寸下清晰可见
-# 4. 支持透明背景
-
-# 临时解决方案：此文件可以让模拟器正常启动
-# 但建议尽快替换为真实的图标文件
-`
+// 需要创建的图标文件映射
+const iconMappings = [
+  // TabBar 图标
+  { from: 'map.png', to: 'map-selected.png' },
+  { from: 'scan.png', to: 'scan-selected.png' },
+  { from: 'completed.png', to: 'stamp.png' },
+  { from: 'completed.png', to: 'stamp-selected.png' },
   
-  fs.writeFileSync(filename, content)
-  console.log(`✅ 创建占位文件: ${filename}`)
-}
-
-// 需要创建的图标文件
-const iconFiles = [
-  { path: 'images/icons/map.png', desc: '地图图标 - 未选中状态' },
-  { path: 'images/icons/map-active.png', desc: '地图图标 - 选中状态' },
-  { path: 'images/icons/scan.png', desc: '扫码图标 - 未选中状态' },
-  { path: 'images/icons/scan-active.png', desc: '扫码图标 - 选中状态' },
-  { path: 'images/icons/progress.png', desc: '进度图标 - 未选中状态' },
-  { path: 'images/icons/progress-active.png', desc: '进度图标 - 选中状态' },
-  { path: 'images/icons/check.png', desc: '完成状态图标' },
-  { path: 'images/icons/circle.png', desc: '未完成状态图标' },
-  { path: 'images/icons/completed.png', desc: '已完成标记图标' },
-  { path: 'images/icons/pending.png', desc: '待完成标记图标' }
-]
-
-// 创建所有图标文件
-iconFiles.forEach(icon => {
-  const fullPath = path.join(__dirname, icon.path)
-  const dir = path.dirname(fullPath)
+  // 其他可能需要的图标
+  { from: 'map.png', to: 'map-active.png' },
+  { from: 'scan.png', to: 'scan-active.png' },
+  { from: 'completed.png', to: 'progress.png' },
+  { from: 'completed.png', to: 'progress-active.png' },
   
-  // 确保目录存在
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true })
+  // 功能图标
+  { from: 'completed.png', to: 'check.png' },
+  { from: 'pending.png', to: 'circle.png' },
+  
+  // 印章图标（复制到stamps目录）
+  { from: 'completed.png', to: '../stamps/signin.png' },
+  { from: 'completed.png', to: '../stamps/esports.png' },
+  { from: 'completed.png', to: '../stamps/coffee.png' },
+  { from: 'completed.png', to: '../stamps/makeup.png' },
+  { from: 'completed.png', to: '../stamps/sleep.png' },
+  { from: 'completed.png', to: '../stamps/breeze.png' },
+  { from: 'pending.png', to: '../stamps/placeholder.png' },
+  { from: 'pending.png', to: '../stamps/locked.png' }
+];
+
+// 检查并创建图标文件
+function createIconFile(fromFile, toFile) {
+  const fromPath = path.join(iconsDir, fromFile);
+  const toPath = path.join(iconsDir, toFile);
+  
+  if (fs.existsSync(fromPath)) {
+    if (!fs.existsSync(toPath)) {
+      try {
+        fs.copyFileSync(fromPath, toPath);
+        console.log(`✅ 创建: ${toFile} (基于 ${fromFile})`);
+        return true;
+      } catch (error) {
+        console.error(`❌ 创建失败: ${toFile}`, error.message);
+        return false;
+      }
+    } else {
+      console.log(`⚠️  已存在: ${toFile}`);
+      return true;
+    }
+  } else {
+    console.error(`❌ 源文件不存在: ${fromFile}`);
+    return false;
   }
-  
-  createPlaceholderPNG(fullPath, icon.desc)
-})
+}
 
-console.log('\n🎉 图标文件修复完成！')
-console.log('\n📋 下一步操作：')
-console.log('1. 重新启动微信开发者工具')
-console.log('2. 模拟器应该可以正常启动了')
-console.log('3. 建议后续替换为真实的图标文件')
-console.log('\n💡 提示：')
-console.log('- 这些是临时占位文件，可以让项目正常运行')
-console.log('- 建议使用真实的PNG图标文件替换')
-console.log('- 图标尺寸建议：64x64像素')
-console.log('- 支持透明背景，文件大小建议小于10KB')
+// 创建占位符图标（如果源文件不存在）
+function createPlaceholderIcon(fileName) {
+  const filePath = path.join(iconsDir, fileName);
+  
+  if (!fs.existsSync(filePath)) {
+    // 创建一个简单的占位符文本文件
+    const placeholderContent = `# 图标占位符
+# 请替换为实际的图标文件
+# 建议尺寸: 64x64px 或 128x128px
+# 格式: PNG (支持透明背景)
+`;
+    
+    try {
+      fs.writeFileSync(filePath.replace('.png', '.txt'), placeholderContent);
+      console.log(`📝 创建占位符: ${fileName.replace('.png', '.txt')}`);
+    } catch (error) {
+      console.error(`❌ 创建占位符失败: ${fileName}`, error.message);
+    }
+  }
+}
+
+// 执行修复
+let successCount = 0;
+let totalCount = iconMappings.length;
+
+console.log(`📋 需要处理的图标文件: ${totalCount} 个\n`);
+
+iconMappings.forEach(({ from, to }) => {
+  if (createIconFile(from, to)) {
+    successCount++;
+  }
+});
+
+// 创建缺失的占位符
+const requiredIcons = [
+  'map.png', 'scan.png', 'stamp.png', 'completed.png', 'pending.png'
+];
+
+console.log('\n📋 检查必需的图标文件...');
+requiredIcons.forEach(createPlaceholderIcon);
+
+// 输出结果
+console.log(`\n🎉 图标修复完成!`);
+console.log(`✅ 成功: ${successCount}/${totalCount}`);
+console.log(`❌ 失败: ${totalCount - successCount}/${totalCount}`);
+
+if (successCount === totalCount) {
+  console.log('\n🚀 所有图标文件已准备就绪，可以启动小程序了！');
+} else {
+  console.log('\n⚠️  部分图标文件创建失败，请检查源文件是否存在。');
+}
+
+// 列出当前所有图标文件
+console.log('\n📁 当前图标文件列表:');
+try {
+  const files = fs.readdirSync(iconsDir);
+  const iconFiles = files.filter(file => file.endsWith('.png'));
+  iconFiles.forEach(file => {
+    console.log(`  - ${file}`);
+  });
+} catch (error) {
+  console.error('❌ 无法读取图标目录:', error.message);
+}

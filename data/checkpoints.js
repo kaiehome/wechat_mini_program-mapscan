@@ -1,361 +1,341 @@
 // data/checkpoints.js
-// 打卡点配置数据
 
-const checkpoints = [
+/**
+ * 打卡点配置数据
+ */
+const CHECKPOINTS_DATA = [
   {
     id: 'signin',
     name: '寻根·霜降廉养',
+    area: '手工区',
     type: 'signin',
-    description: '用户手机扫描第一个二维码完成线上打卡，加盖"寻根·霜降廉养"电子印章，正式开启廉洁探索之旅。',
-    position: {
-      lat: 39.908823,
-      lng: 116.397470
+    position: { 
+      lat: 30.2741, 
+      lng: 120.1551,
+      x: 120,   // 手工区 - 调整为适配新地图布局
+      y: 180   
     },
     stampImage: '/images/stamps/signin.png',
+    description: '用户在手工区扫描二维码打卡，加盖"寻根·霜降廉养"电子印章，正式开启廉洁探索之旅。',
+    icon: '/images/icons/handicraft.png',
     color: '#4CAF50',
-    icon: '/images/icons/signin.png',
     order: 1,
-    isRequired: true,
-    unlockCondition: null
+    required: true,
+    qrCode: 'checkpoint:signin' // 示例二维码内容
   },
   {
     id: 'esports',
     name: '笃行·电竞廉规',
+    area: '电竞区',
     type: 'checkpoint',
-    description: '用户在电竞区扫描二维码打卡，加盖"笃行·电竞廉规"电子印章，强化对廉洁规则的践行意识。',
-    position: {
-      lat: 39.908923,
-      lng: 116.397570
+    position: { 
+      lat: 30.2742, 
+      lng: 120.1552,
+      x: 480,  // 电竞区 - 调整为适配新地图布局
+      y: 120
     },
     stampImage: '/images/stamps/esports.png',
-    color: '#FF9800',
+    description: '用户在电竞区扫描二维码打卡，加盖"笃行·电竞廉规"电子印章，强化对廉洁规则的践行意识。',
     icon: '/images/icons/esports.png',
+    color: '#2196F3',
     order: 2,
-    isRequired: true,
-    unlockCondition: 'signin'
+    required: true,
+    qrCode: 'checkpoint:esports'
   },
   {
     id: 'coffee',
     name: '省身·啡香廉思',
+    area: '咖啡区',
     type: 'checkpoint',
-    description: '用户在咖啡区扫描二维码打卡，加盖"省身·啡香廉思"电子印章。',
-    position: {
-      lat: 39.909023,
-      lng: 116.397670
+    position: { 
+      lat: 30.2743, 
+      lng: 120.1553,
+      x: 520,  // 咖啡区 - 调整为适配新地图布局
+      y: 280
     },
     stampImage: '/images/stamps/coffee.png',
-    color: '#9C27B0',
+    description: '用户在咖啡区扫描二维码打卡，加盖"省身·啡香廉思"电子印章。',
     icon: '/images/icons/coffee.png',
+    color: '#FF9800',
     order: 3,
-    isRequired: true,
-    unlockCondition: 'signin'
+    required: true,
+    qrCode: 'checkpoint:coffee'
   },
   {
     id: 'makeup',
     name: '正容·美妆廉仪',
+    area: '美妆区',
     type: 'checkpoint',
-    description: '用户在美妆区扫描二维码打卡，加盖"正容·美妆廉仪"电子印章，展现廉洁风采。',
-    position: {
-      lat: 39.909123,
-      lng: 116.397770
+    position: { 
+      lat: 30.2744, 
+      lng: 120.1554,
+      x: 180,  // 美妆区 - 调整为适配新地图布局
+      y: 380
     },
     stampImage: '/images/stamps/makeup.png',
-    color: '#E91E63',
+    description: '用户在美妆区扫描二维码打卡，加盖"正容·美妆廉仪"电子印章，展现廉洁风采。',
     icon: '/images/icons/makeup.png',
+    color: '#E91E63',
     order: 4,
-    isRequired: true,
-    unlockCondition: 'signin'
+    required: true,
+    qrCode: 'checkpoint:makeup'
   },
   {
     id: 'sleep',
     name: '静悟·清风入梦',
+    area: '睡眠区',
     type: 'checkpoint',
-    description: '用户在睡眠区扫描二维码打卡，加盖"静悟·清风入梦"电子印章，在宁静中领悟廉洁真谛。',
-    position: {
-      lat: 39.909223,
-      lng: 116.397870
+    position: { 
+      lat: 30.2745, 
+      lng: 120.1555,
+      x: 320,  // 服装区 - 调整为适配新地图布局
+      y: 450
     },
     stampImage: '/images/stamps/sleep.png',
-    color: '#2196F3',
+    description: '用户在睡眠区扫描二维码打卡，加盖"静悟·清风入梦"电子印章，在宁静中领悟廉洁真谛。',
     icon: '/images/icons/sleep.png',
+    color: '#9C27B0',
     order: 5,
-    isRequired: true,
-    unlockCondition: 'signin'
+    required: true,
+    qrCode: 'checkpoint:sleep'
   },
   {
     id: 'breeze',
     name: '沁心·清风廉饮',
+    area: '空调区',
     type: 'checkpoint',
-    description: '用户在清风区扫描二维码打卡，加盖"沁心·清风廉饮"电子印章，完成所有打卡行程。',
-    position: {
-      lat: 39.909323,
-      lng: 116.397970
+    position: { 
+      lat: 30.2746, 
+      lng: 120.1556,
+      x: 80,   // 睡眠区 - 调整为适配新地图布局
+      y: 320
     },
     stampImage: '/images/stamps/breeze.png',
-    color: '#00BCD4',
+    description: '用户在清风区扫描二维码打卡，加盖"沁心·清风廉饮"电子印章，完成所有打卡行程。',
     icon: '/images/icons/breeze.png',
+    color: '#00BCD4',
     order: 6,
-    isRequired: true,
-    unlockCondition: 'signin'
+    required: true,
+    qrCode: 'checkpoint:breeze'
   }
 ]
 
-// 打卡点工具函数
-const checkpointUtils = {
-  /**
-   * 根据ID获取打卡点信息
-   * @param {string} checkpointId 打卡点ID
-   * @returns {Object|null} 打卡点信息
-   */
-  getCheckpointById(checkpointId) {
-    return checkpoints.find(checkpoint => checkpoint.id === checkpointId) || null
-  },
+/**
+ * 打卡点工具类
+ */
+class CheckpointsUtils {
+  constructor() {
+    this.checkpoints = CHECKPOINTS_DATA
+  }
 
   /**
    * 获取所有打卡点
-   * @returns {Array} 打卡点列表
    */
   getAllCheckpoints() {
-    return checkpoints
-  },
+    return this.checkpoints
+  }
+
+  /**
+   * 根据ID获取打卡点
+   */
+  getCheckpointById(id) {
+    return this.checkpoints.find(checkpoint => checkpoint.id === id)
+  }
 
   /**
    * 获取签到点
-   * @returns {Object|null} 签到点信息
    */
   getSigninCheckpoint() {
-    return checkpoints.find(checkpoint => checkpoint.type === 'signin') || null
-  },
+    return this.checkpoints.find(checkpoint => checkpoint.type === 'signin')
+  }
 
   /**
    * 获取普通打卡点
-   * @returns {Array} 普通打卡点列表
    */
-  getRegularCheckpoints() {
-    return checkpoints.filter(checkpoint => checkpoint.type === 'checkpoint')
-  },
+  getCheckpointList() {
+    return this.checkpoints.filter(checkpoint => checkpoint.type === 'checkpoint')
+  }
 
   /**
    * 根据类型获取打卡点
-   * @param {string} type 打卡点类型
-   * @returns {Array} 打卡点列表
    */
   getCheckpointsByType(type) {
-    return checkpoints.filter(checkpoint => checkpoint.type === type)
-  },
+    return this.checkpoints.filter(checkpoint => checkpoint.type === type)
+  }
 
   /**
-   * 获取地图中心点
-   * @returns {Object} 地图中心坐标
+   * 获取地图标记点
    */
-  getMapCenter() {
-    if (checkpoints.length === 0) {
-      return { lat: 39.908823, lng: 116.397470 }
-    }
-
-    const totalLat = checkpoints.reduce((sum, checkpoint) => sum + checkpoint.position.lat, 0)
-    const totalLng = checkpoints.reduce((sum, checkpoint) => sum + checkpoint.position.lng, 0)
-    
-    return {
-      lat: totalLat / checkpoints.length,
-      lng: totalLng / checkpoints.length
-    }
-  },
-
-  /**
-   * 获取地图边界
-   * @returns {Object} 地图边界
-   */
-  getMapBounds() {
-    if (checkpoints.length === 0) {
-      return {
-        north: 39.908823,
-        south: 39.908823,
-        east: 116.397470,
-        west: 116.397470
+  getMapMarkers(completedStamps = []) {
+    // 为兼容<map>组件要求（若有页面仍在使用），确保 marker.id 为 Number
+    return this.checkpoints.map((checkpoint, index) => ({
+      id: index + 1, // 数字类型
+      latitude: checkpoint.position.lat,
+      longitude: checkpoint.position.lng,
+      iconPath: completedStamps.includes(checkpoint.id)
+        ? '/images/icons/completed.png'
+        : '/images/icons/pending.png',
+      width: 40,
+      height: 40,
+      callout: {
+        content: checkpoint.name,
+        color: completedStamps.includes(checkpoint.id) ? '#4CAF50' : '#FF9800',
+        fontSize: 24,
+        borderRadius: 8,
+        bgColor: 'white',
+        padding: 8,
+        display: 'BYCLICK'
       }
-    }
-
-    const lats = checkpoints.map(cp => cp.position.lat)
-    const lngs = checkpoints.map(cp => cp.position.lng)
-
-    return {
-      north: Math.max(...lats),
-      south: Math.min(...lats),
-      east: Math.max(...lngs),
-      west: Math.min(...lngs)
-    }
-  },
+    }))
+  }
 
   /**
-   * 验证打卡点ID是否有效
-   * @param {string} checkpointId 打卡点ID
-   * @returns {boolean} 是否有效
+   * 获取打卡点统计信息
    */
-  isValidCheckpointId(checkpointId) {
-    return checkpoints.some(checkpoint => checkpoint.id === checkpointId)
-  },
+  getCheckpointsStatistics(completedStamps = []) {
+    const total = this.checkpoints.length
+    const completed = completedStamps.length
+    const remaining = total - completed
+    const completionRate = total > 0 ? (completed / total * 100).toFixed(1) : 0
+
+    return {
+      total,
+      completed,
+      remaining,
+      completionRate: parseFloat(completionRate)
+    }
+  }
+
+  /**
+   * 获取下一个可打卡的点位
+   */
+  getNextAvailableCheckpoint(completedStamps = [], isSignedIn = false) {
+    // 如果未签到，返回签到点
+    if (!isSignedIn) {
+      return this.getSigninCheckpoint()
+    }
+
+    // 如果已签到，返回第一个未完成的点位
+    return this.checkpoints.find(checkpoint => 
+      !completedStamps.includes(checkpoint.id) && checkpoint.type === 'checkpoint'
+    )
+  }
+
+  /**
+   * 获取打卡进度详情
+   */
+  getProgressDetails(completedStamps = []) {
+    const progress = this.checkpoints.map(checkpoint => ({
+      ...checkpoint,
+      isCompleted: completedStamps.includes(checkpoint.id),
+      completionTime: this.getCompletionTime(checkpoint.id)
+    }))
+
+    return {
+      all: progress,
+      completed: progress.filter(p => p.isCompleted),
+      pending: progress.filter(p => !p.isCompleted),
+      statistics: this.getCheckpointsStatistics(completedStamps)
+    }
+  }
+
+  /**
+   * 获取完成时间（模拟数据）
+   */
+  getCompletionTime(checkpointId) {
+    // 这里可以从存储中获取真实的完成时间
+    // 暂时返回模拟数据
+    const now = new Date()
+    const offset = Math.floor(Math.random() * 3600000) // 随机1小时内
+    return new Date(now.getTime() - offset).toLocaleString()
+  }
+
+  /**
+   * 验证打卡点ID
+   */
+  isValidCheckpointId(id) {
+    return this.checkpoints.some(checkpoint => checkpoint.id === id)
+  }
 
   /**
    * 获取打卡点颜色
-   * @param {string} checkpointId 打卡点ID
-   * @returns {string} 颜色值
    */
-  getCheckpointColor(checkpointId) {
-    const checkpoint = this.getCheckpointById(checkpointId)
+  getCheckpointColor(id) {
+    const checkpoint = this.getCheckpointById(id)
     return checkpoint ? checkpoint.color : '#666666'
-  },
+  }
 
   /**
    * 获取打卡点图标
-   * @param {string} checkpointId 打卡点ID
-   * @returns {string} 图标路径
    */
-  getCheckpointIcon(checkpointId) {
-    const checkpoint = this.getCheckpointById(checkpointId)
+  getCheckpointIcon(id) {
+    const checkpoint = this.getCheckpointById(id)
     return checkpoint ? checkpoint.icon : '/images/icons/default.png'
-  },
+  }
 
   /**
-   * 获取打卡点印章图片
-   * @param {string} checkpointId 打卡点ID
-   * @returns {string} 印章图片路径
+   * 生成二维码内容
    */
-  getCheckpointStampImage(checkpointId) {
-    const checkpoint = this.getCheckpointById(checkpointId)
-    return checkpoint ? checkpoint.stampImage : '/images/stamps/default.png'
-  },
+  generateQRCodeContent(id) {
+    const checkpoint = this.getCheckpointById(id)
+    return checkpoint ? checkpoint.qrCode : null
+  }
 
   /**
-   * 检查解锁条件
-   * @param {string} checkpointId 打卡点ID
-   * @param {Array} completedStamps 已完成的印章列表
-   * @returns {boolean} 是否已解锁
+   * 解析二维码内容
    */
-  isUnlocked(checkpointId, completedStamps) {
-    const checkpoint = this.getCheckpointById(checkpointId)
-    if (!checkpoint) return false
-
-    // 签到点始终解锁
-    if (checkpoint.type === 'signin') return true
-
-    // 检查解锁条件
-    if (checkpoint.unlockCondition) {
-      return completedStamps.includes(checkpoint.unlockCondition)
-    }
-
-    return true
-  },
-
-  /**
-   * 获取下一个可解锁的打卡点
-   * @param {Array} completedStamps 已完成的印章列表
-   * @returns {Object|null} 下一个打卡点
-   */
-  getNextUnlockedCheckpoint(completedStamps) {
-    for (const checkpoint of checkpoints) {
-      if (!completedStamps.includes(checkpoint.id) && this.isUnlocked(checkpoint.id, completedStamps)) {
-        return checkpoint
+  parseQRCodeContent(qrContent) {
+    // 支持多种格式
+    if (qrContent.includes(':')) {
+      const parts = qrContent.split(':')
+      if (parts[0] === 'checkpoint') {
+        return parts[1]
       }
     }
+    
+    // 直接是ID
+    if (this.isValidCheckpointId(qrContent)) {
+      return qrContent
+    }
+    
     return null
-  },
+  }
 
   /**
-   * 获取推荐打卡顺序
-   * @param {Array} completedStamps 已完成的印章列表
-   * @returns {Array} 推荐的打卡顺序
+   * 获取打卡点排序
    */
-  getRecommendedOrder(completedStamps) {
-    const unlocked = checkpoints.filter(checkpoint => 
-      !completedStamps.includes(checkpoint.id) && 
-      this.isUnlocked(checkpoint.id, completedStamps)
-    )
+  getSortedCheckpoints(sortBy = 'order') {
+    return [...this.checkpoints].sort((a, b) => {
+      if (sortBy === 'order') {
+        return a.order - b.order
+      } else if (sortBy === 'name') {
+        return a.name.localeCompare(b.name)
+      } else if (sortBy === 'area') {
+        return a.area.localeCompare(b.area)
+      }
+      return 0
+    })
+  }
+
+  /**
+   * 搜索打卡点
+   */
+  searchCheckpoints(keyword) {
+    if (!keyword) return this.checkpoints
     
-    return unlocked.sort((a, b) => a.order - b.order)
+    const lowerKeyword = keyword.toLowerCase()
+    return this.checkpoints.filter(checkpoint => 
+      checkpoint.name.toLowerCase().includes(lowerKeyword) ||
+      checkpoint.area.toLowerCase().includes(lowerKeyword) ||
+      checkpoint.description.toLowerCase().includes(lowerKeyword)
+    )
   }
 }
 
-// 地图配置
-const mapConfig = {
-  // 地图中心点
-  center: checkpointUtils.getMapCenter(),
-  
-  // 地图缩放级别
-  scale: 16,
-  
-  // 是否显示用户位置
-  showLocation: true,
-  
-  // 是否显示指南针
-  showCompass: true,
-  
-  // 是否显示比例尺
-  showScale: true,
-  
-  // 地图样式
-  style: 1,
-  
-  // 地图控件
-  controls: [],
-  
-  // 标记点配置
-  markers: checkpoints.map(checkpoint => ({
-    id: checkpoint.id,
-    latitude: checkpoint.position.lat,
-    longitude: checkpoint.position.lng,
-    iconPath: checkpoint.icon,
-    width: 30,
-    height: 30,
-    callout: {
-      content: checkpoint.name,
-      color: '#333333',
-      fontSize: 14,
-      borderRadius: 8,
-      bgColor: '#ffffff',
-      padding: 8,
-      display: 'ALWAYS'
-    }
-  }))
-}
+// 创建单例实例
+const checkpointsUtils = new CheckpointsUtils()
 
-// 活动配置
-const activityConfig = {
-  // 活动名称
-  name: '廉洁探索之旅',
-  
-  // 活动描述
-  description: '通过扫码打卡集赞，在6个不同区域体验廉洁文化',
-  
-  // 总打卡点数
-  totalCheckpoints: checkpoints.length,
-  
-  // 完成奖励
-  completionReward: {
-    title: '恭喜完成所有打卡！',
-    message: '行程已完成，电子印章已集齐，请到签到处领取奖品！',
-    prize: '精美纪念品一份'
-  },
-  
-  // 活动规则
-  rules: [
-    '必须首先完成签到才能开始其他打卡',
-    '除签到外，其他5个点位可任意顺序完成',
-    '每个点位只能打卡一次',
-    '完成所有6个点位后可领取奖品'
-  ],
-  
-  // 活动时间
-  timeRange: {
-    start: '2024-01-01 00:00:00',
-    end: '2024-12-31 23:59:59'
-  }
-}
-
-// 导出所有配置
 module.exports = {
-  checkpoints,
-  checkpointUtils,
-  mapConfig,
-  activityConfig
+  CHECKPOINTS_DATA,
+  checkpointsUtils
 }
