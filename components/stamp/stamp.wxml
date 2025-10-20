@@ -10,7 +10,7 @@
       <image 
         class="stamp-image {{showAnimation ? 'animated' : ''}}"
         animation="{{animationData}}"
-        src="{{completed ? image : '/images/stamps/locked.png'}}"
+        src="{{completed ? image : '/images/stamps/' + stampId + '-Ash.png'}}"
         mode="aspectFit">
       </image>
       

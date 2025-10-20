@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>我的印章 彩色/-Ash 预览</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin: 0; background: #f6f7f9; }
+    .container { max-width: 980px; margin: 24px auto; padding: 16px; }
+    .title { font-weight: 600; font-size: 20px; margin-bottom: 12px; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .card { background: #fff; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .stamp { width: 96px; height: 96px; border-radius: 50%; }
+    .name { margin-top: 8px; font-size: 14px; color: #333; }
+    .status { margin-top: 4px; font-size: 12px; color: #666; }
+    .status.completed { color: #2E7D32; }
+    .status.pending { color: #999; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="title">我的印章页面彩色/-Ash 切换（预览）</div>
+    <div class="grid" id="grid"></div>
+  </div>
+  <script>
+    const stamps = [
+      { id: 'signin', name: '寻根·霜降廉养' },
+      { id: 'esports', name: '笃行·电竞廉规' },
+      { id: 'coffee', name: '省身·啡香廉思' },
+      { id: 'makeup', name: '正容·美妆廉仪' },
+      { id: 'sleep', name: '静悟·清风入梦' },
+      { id: 'breeze', name: '沁心·清风廉饮' },
+    ]
+    const completed = ['signin']
+    const grid = document.getElementById('grid')
+    stamps.forEach(s => {
+      const isCompleted = completed.includes(s.id)
+      const src = isCompleted ? `/images/stamps/${s.id}.png` : `/images/stamps/${s.id}-Ash.png`
+      const card = document.createElement('div')
+      card.className = 'card'
+      const img = document.createElement('img')
+      img.className = 'stamp'
+      img.src = src
+      img.alt = s.name
+      const name = document.createElement('div')
+      name.className = 'name'
+      name.textContent = s.name
+      const status = document.createElement('div')
+      status.className = `status ${isCompleted ? 'completed' : 'pending'}`
+      status.textContent = isCompleted ? '✓ 已完成' : '○ 待打卡'
+      card.appendChild(img)
+      card.appendChild(name)
+      card.appendChild(status)
+      grid.appendChild(card)
+    })
+  </script>
+</body>
+</html>

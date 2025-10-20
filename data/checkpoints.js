@@ -12,8 +12,8 @@ const CHECKPOINTS_DATA = [
     position: { 
       lat: 30.2741, 
       lng: 120.1551,
-      x: 120,   // 手工区 - 调整为适配新地图布局
-      y: 180   
+      x: 100,   // 手工区 - 左上角位置
+      y: 150   
     },
     stampImage: '/images/stamps/signin.png',
     description: '用户在手工区扫描二维码打卡，加盖"寻根·霜降廉养"电子印章，正式开启廉洁探索之旅。',
@@ -31,7 +31,7 @@ const CHECKPOINTS_DATA = [
     position: { 
       lat: 30.2742, 
       lng: 120.1552,
-      x: 480,  // 电竞区 - 调整为适配新地图布局
+      x: 450,  // 电竞区 - 右上角位置
       y: 120
     },
     stampImage: '/images/stamps/esports.png',
@@ -50,7 +50,7 @@ const CHECKPOINTS_DATA = [
     position: { 
       lat: 30.2743, 
       lng: 120.1553,
-      x: 520,  // 咖啡区 - 调整为适配新地图布局
+      x: 480,  // 咖啡区 - 右上角下方
       y: 280
     },
     stampImage: '/images/stamps/coffee.png',
@@ -69,8 +69,8 @@ const CHECKPOINTS_DATA = [
     position: { 
       lat: 30.2744, 
       lng: 120.1554,
-      x: 180,  // 美妆区 - 调整为适配新地图布局
-      y: 380
+      x: 150,  // 美妆区 - 左上角下方
+      y: 350
     },
     stampImage: '/images/stamps/makeup.png',
     description: '用户在美妆区扫描二维码打卡，加盖"正容·美妆廉仪"电子印章，展现廉洁风采。',
@@ -88,7 +88,7 @@ const CHECKPOINTS_DATA = [
     position: { 
       lat: 30.2745, 
       lng: 120.1555,
-      x: 320,  // 服装区 - 调整为适配新地图布局
+      x: 280,  // 睡眠区 - 左下角
       y: 450
     },
     stampImage: '/images/stamps/sleep.png',
@@ -107,8 +107,8 @@ const CHECKPOINTS_DATA = [
     position: { 
       lat: 30.2746, 
       lng: 120.1556,
-      x: 80,   // 睡眠区 - 调整为适配新地图布局
-      y: 320
+      x: 400,  // 空调区 - 右下角
+      y: 450
     },
     stampImage: '/images/stamps/breeze.png',
     description: '用户在清风区扫描二维码打卡，加盖"沁心·清风廉饮"电子印章，完成所有打卡行程。',
@@ -168,25 +168,28 @@ class CheckpointsUtils {
    */
   getMapMarkers(completedStamps = []) {
     // 为兼容<map>组件要求（若有页面仍在使用），确保 marker.id 为 Number
-    return this.checkpoints.map((checkpoint, index) => ({
-      id: index + 1, // 数字类型
-      latitude: checkpoint.position.lat,
-      longitude: checkpoint.position.lng,
-      iconPath: completedStamps.includes(checkpoint.id)
-        ? '/images/icons/completed.png'
-        : '/images/icons/pending.png',
-      width: 40,
-      height: 40,
-      callout: {
-        content: checkpoint.name,
-        color: completedStamps.includes(checkpoint.id) ? '#4CAF50' : '#FF9800',
-        fontSize: 24,
-        borderRadius: 8,
-        bgColor: 'white',
-        padding: 8,
-        display: 'BYCLICK'
+    return this.checkpoints.map((checkpoint, index) => {
+      const base = checkpoint.stampImage
+      const isCompleted = completedStamps.includes(checkpoint.id)
+      const iconPath = isCompleted ? base : base.replace('.png', '-Ash.png')
+      return {
+        id: index + 1, // 数字类型
+        latitude: checkpoint.position.lat,
+        longitude: checkpoint.position.lng,
+        iconPath,
+        width: 40,
+        height: 40,
+        callout: {
+          content: checkpoint.name,
+          color: isCompleted ? '#4CAF50' : '#FF9800',
+          fontSize: 24,
+          borderRadius: 8,
+          bgColor: 'white',
+          padding: 8,
+          display: 'BYCLICK'
+        }
       }
-    }))
+    })
   }
 
   /**

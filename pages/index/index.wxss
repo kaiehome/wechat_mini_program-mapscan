@@ -1,3 +1,4 @@
+@import "../../styles/variables.wxss";
 /* pages/index/index.wxss */
 .container {
   padding: 0;
@@ -33,20 +34,31 @@
 
 /* 响应式地图容器 */
 .responsive-map-container {
-  padding: 20rpx;
+  padding: 10rpx;
   background-color: #f5f5f5;
   min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.map-wrapper {
-  position: relative;
-  background-color: white;
-  border-radius: 20rpx;
-  overflow: hidden;
-  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 750rpx; /* 最大宽度限制 */
-  margin: 0 auto;
+/* 自定义导航栏 */
+.custom-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--navbar-bg-color);
+  color: var(--navbar-text-color);
+  z-index: 1000;
+}
+
+.nav-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--navbar-text-color);
 }
 
 /* 响应式地图图片 */
@@ -54,9 +66,42 @@
   width: 100%;
   height: auto;
   min-height: 500rpx;
-  max-height: 80vh; /* 最大高度为视窗高度的80% */
+  max-height: 80vh;
   display: block;
+  background-color: #f5f5f5;
   object-fit: contain;
+}
+
+/* 地图占位符 */
+.map-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 400rpx;
+  max-height: 70vh;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.placeholder-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.placeholder-icon {
+  font-size: 80rpx;
+}
+
+.placeholder-text {
+  font-size: 28rpx;
+  color: #666;
 }
 
 /* 打卡点圆圈覆盖层 */
@@ -104,10 +149,10 @@
   transition: all 0.3s ease;
 }
 
-/* 未打卡状态 - 灰度滤镜 */
+/* 未打卡状态 - 使用 -Ash 素材，取消滤镜 */
 .checkpoint-icon.pending {
-  filter: grayscale(100%) brightness(0.6);
-  opacity: 0.7;
+  filter: none;
+  opacity: 1;
 }
 
 /* 已打卡状态 - 彩色显示 */
@@ -279,33 +324,36 @@
 /* 响应式打卡点圆圈 */
 .checkpoint-circle-responsive {
   position: absolute;
-  width: 60rpx;
-  height: 60rpx;
+  width: 80rpx;
+  height: 80rpx;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
   z-index: 10;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.3);
+  border: 4rpx solid white;
 }
 
 .checkpoint-circle-responsive.pending {
-  background-color: #CCCCCC;
-  border: 3rpx solid #999999;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 4rpx solid #FFD700;
+  color: #666;
 }
 
 .checkpoint-circle-responsive.completed {
   background-color: #4CAF50;
-  border: 3rpx solid #2E7D32;
+  border: 4rpx solid #2E7D32;
   transform: scale(1.1);
+  box-shadow: 0 6rpx 20rpx rgba(76, 175, 80, 0.4);
 }
 
 .circle-number {
-  font-size: 24rpx;
+  font-size: 28rpx;
   font-weight: bold;
   color: white;
-  text-shadow: 0 1rpx 3rpx rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.5);
 }
 
 /* 完成庆祝效果 */
@@ -378,4 +426,87 @@
 .celebration-text {
   font-size: 28rpx;
   opacity: 0.9;
+}
+
+/* 响应式设计 - 小屏幕优化 (iPhone SE, 小屏Android) */
+@media screen and (max-width: 375px) {
+  .responsive-map-container {
+    padding: 5rpx;
+  }
+  
+  .responsive-map-image {
+    min-height: 350rpx;
+    max-height: 60vh;
+  }
+  
+  .checkpoint-circle-responsive {
+    width: 60rpx;
+    height: 60rpx;
+  }
+  
+  .circle-number {
+    font-size: 22rpx;
+  }
+}
+
+/* 响应式设计 - 中等屏幕 (iPhone 标准版) */
+@media screen and (min-width: 376px) and (max-width: 414px) {
+  .responsive-map-image {
+    min-height: 450rpx;
+    max-height: 65vh;
+  }
+  
+  .checkpoint-circle-responsive {
+    width: 70rpx;
+    height: 70rpx;
+  }
+  
+  .circle-number {
+    font-size: 24rpx;
+  }
+}
+
+/* 响应式设计 - 大屏幕优化 (iPhone Plus, Pro Max, 大屏Android) */
+@media screen and (min-width: 415px) {
+  .responsive-map-container {
+    padding: 15rpx;
+  }
+  
+  .responsive-map-image {
+    min-height: 500rpx;
+    max-height: 75vh;
+  }
+  
+  .checkpoint-circle-responsive {
+    width: 80rpx;
+    height: 80rpx;
+  }
+  
+  .circle-number {
+    font-size: 26rpx;
+  }
+}
+
+/* 横屏适配 */
+@media screen and (orientation: landscape) {
+  .responsive-map-image {
+    max-height: 80vh;
+    min-height: 300rpx;
+  }
+  
+  .responsive-map-container {
+    padding: 5rpx;
+  }
+}
+
+/* 地图外层包裹容器 */
+.map-wrapper {
+  position: relative;
+  background-color: white;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.1);
+  width: 100%;
+  margin: 6vh auto 0;
+  box-sizing: border-box;
 }

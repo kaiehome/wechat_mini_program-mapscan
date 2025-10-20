@@ -1,5 +1,10 @@
 <!--pages/stamps/stamps.wxml-->
-<view class="container">
+<view class="container" style="padding-top: {{navBarHeight}}px;">
+  <!-- 自定义导航栏 -->
+  <view class="custom-navbar" style="padding-top: {{statusBarHeight}}px; height: {{navBarHeight}}px;">
+    <text class="nav-title">我的印章</text>
+  </view>
+
   <!-- 统计信息 -->
   <view class="statistics-section">
     <view class="statistics-title">收集进度</view>
@@ -37,15 +42,11 @@
         class="stamp-item {{item.isCompleted ? 'completed' : 'pending'}}"
         wx:for="{{stamps}}" 
         wx:key="id"
-        bindtap="onStampTap"
         data-stamp-id="{{item.id}}">
         
         <!-- 印章图标 -->
         <view class="stamp-icon">
-          <image 
-            src="{{item.isCompleted ? item.stampImage : '/images/stamps/placeholder.png'}}" 
-            class="stamp-image">
-          </image>
+          <image src="{{item.stampImage}}" class="stamp-image"></image>
           <view class="stamp-status {{item.isCompleted ? 'completed' : 'pending'}}">
             {{item.isCompleted ? '✓' : '○'}}
           </view>
@@ -68,14 +69,9 @@
     <button class="action-btn btn-primary" bindtap="viewCompletionStatus">
       {{userProgress.completionStatus ? '查看奖品信息' : '查看完成情况'}}
     </button>
-    <view class="action-row">
-      <button class="action-btn btn-secondary" bindtap="goToMap">
-        查看地图
-      </button>
-      <button class="action-btn btn-success" bindtap="goToScan">
-        继续打卡
-      </button>
-    </view>
+    <button class="action-btn btn-success" bindtap="goToScan">
+      继续打卡
+    </button>
     <button class="action-btn btn-warning" bindtap="resetProgress">
       重置进度
     </button>
@@ -83,7 +79,6 @@
 
   <!-- 完成提示 -->
   <view class="completion-section" wx:if="{{userProgress.completionStatus}}">
-    <view class="completion-title">🎉 恭喜完成！</view>
     <view class="completion-content">
       您已成功集齐所有电子印章！<br/>
       请前往签到处（手工区）领取精美奖品。

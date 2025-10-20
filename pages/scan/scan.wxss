@@ -1,223 +1,111 @@
 /* pages/scan/scan.wxss */
-.container {
-  padding: 20rpx;
-  background-color: var(--bg-secondary);
-  min-height: 100vh;
-}
+@import "../../styles/variables.wxss";
 
-/* 扫码区域 */
-.scan-section {
-  background-color: var(--bg-primary);
-  border-radius: var(--radius-xl);
-  padding: 40rpx;
-  margin-bottom: 20rpx;
-  text-align: center;
-  box-shadow: var(--shadow-base);
-}
-
-.scan-title {
-  font-size: var(--font-size-xl);
-  font-weight: bold;
-  color: var(--text-primary);
-  margin-bottom: 20rpx;
-}
-
-.scan-description {
-  font-size: var(--font-size-base);
-  color: var(--text-secondary);
-  margin-bottom: 40rpx;
-}
-
-.scan-button-container {
-  margin: 40rpx 0;
-}
-
-.scan-button {
-  width: 300rpx;
-  height: 300rpx;
-  border-radius: var(--radius-full);
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+/* 自定义导航栏通用样式 */
+.custom-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: var(--primary-color, #4CAF50);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: none;
-  box-shadow: 0 8rpx 30rpx rgba(76, 175, 80, 0.3);
-  transition: all var(--transition-base);
+  box-sizing: border-box; /* 关键修复：高度包含内边距，避免遮挡 */
 }
 
+.nav-title {
+  color: var(--navbar-text-color);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* 页面容器基础样式 */
+.container {
+  min-height: 100vh;
+  box-sizing: border-box;
+  background: #f7f7f7;
+}
+
+/* 以下保留原有扫码页样式（示例） */
+.scan-section {
+  padding: 16px;
+}
+.scan-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.scan-description {
+  color: #666;
+  margin-bottom: 12px;
+}
+.scan-button-container { 
+  display: flex; 
+  justify-content: center; 
+  margin: 12px 0 24px; 
+}
+.scan-button {
+  background-color: var(--primary-color, #4CAF50);
+  color: #fff;
+  border-radius: 24px;
+  padding: 12px 20px;
+}
 .scan-button.scanning {
-  background: linear-gradient(135deg, var(--warning-color), #F57C00);
-  animation: scanning 1.5s infinite;
+  opacity: 0.8;
 }
-
-@keyframes scanning {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
-
-.scan-icon {
-  margin-bottom: 20rpx;
-}
-
 .scan-icon .icon {
-  width: 80rpx;
-  height: 80rpx;
+  width: 24px; height: 24px;
 }
+.scan-text { margin-top: 4px; }
 
-.scan-text {
-  font-size: var(--font-size-base);
-  color: var(--white);
-  font-weight: bold;
-}
+.progress-section { padding: 16px; }
+.progress-title { font-size: 16px; font-weight: 600; }
+.progress-bar { height: 8px; background: #e0e0e0; border-radius: 8px; margin-top: 8px; }
+.progress-fill { height: 8px; background: var(--primary-color, #4CAF50); border-radius: 8px; }
 
-.scan-result {
-  margin-top: 40rpx;
-  padding: 20rpx;
-  background-color: var(--bg-tertiary);
-  border-radius: var(--radius-base);
-  border-left: 6rpx solid var(--primary-color);
-}
+.stamps-wall { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 12px; }
 
-.result-title {
-  font-size: var(--font-size-sm);
-  color: var(--text-secondary);
-  margin-bottom: 10rpx;
-}
-
-.result-content {
-  font-size: var(--font-size-base);
-  color: var(--text-primary);
-  word-break: break-all;
-}
-
-/* 进度区域 */
-.progress-section {
-  background-color: var(--bg-primary);
-  border-radius: var(--radius-xl);
-  padding: 30rpx;
-  margin-bottom: 20rpx;
-  box-shadow: var(--shadow-base);
-}
-
-.progress-title {
-  font-size: var(--font-size-lg);
-  font-weight: bold;
-  color: var(--text-primary);
-  margin-bottom: 20rpx;
-}
-
-.progress-info {
-  margin-bottom: 30rpx;
-}
-
-.progress-text {
-  font-size: var(--font-size-base);
-  color: var(--primary-color);
-  font-weight: bold;
-  margin-bottom: 20rpx;
-}
-
-.progress-bar {
-  width: 100%;
-  height: var(--progress-height);
-  background-color: var(--gray-200);
-  border-radius: var(--progress-border-radius);
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  background-color: var(--primary-color);
-  border-radius: var(--progress-border-radius);
-  transition: width var(--transition-slow) ease;
-}
-
-/* 印章墙 */
-.stamps-wall {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20rpx;
-  margin-top: 30rpx;
-}
-
+/* 印章卡片样式 */
 .stamp-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20rpx;
-  border-radius: var(--radius-lg);
-  background-color: var(--bg-tertiary);
-  box-shadow: var(--shadow-sm);
-  transition: all var(--transition-base);
-}
-
-.stamp-item.uncompleted {
-  filter: grayscale(100%);
-  opacity: 0.6;
-}
-
-.stamp-item.completed {
-  transform: scale(1.05);
-  box-shadow: var(--shadow-md);
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 12px 8px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
 }
 
 .stamp-image {
-  width: 100rpx;
-  height: 100rpx;
-  margin-bottom: 10rpx;
+  width: 64px;
+  height: 64px;
+  display: block;
+  margin: 8px auto 4px;
 }
 
 .stamp-name {
-  font-size: var(--font-size-sm);
-  color: var(--text-secondary);
-  text-align: center;
+  font-size: 12px;
+  color: #333;
 }
 
-/* 使用说明 */
-.instruction-section {
-  background-color: var(--bg-primary);
-  border-radius: var(--radius-xl);
-  padding: 30rpx;
-  box-shadow: var(--shadow-base);
+/* 未完成：置灰显示 */
+.stamp-item.uncompleted .stamp-image {
+  filter: none;
+  opacity: 1;
 }
 
-.instruction-title {
-  font-size: var(--font-size-lg);
-  font-weight: bold;
-  color: var(--text-primary);
-  margin-bottom: 20rpx;
+/* 已完成：高亮边框并恢复彩色 */
+.stamp-item.completed {
+  border: 2px solid var(--primary-color, #4CAF50);
+}
+.stamp-item.completed .stamp-image {
+  filter: none;
+  opacity: 1;
 }
 
-.instruction-content {
-  display: flex;
-  flex-direction: column;
-  gap: 20rpx;
-}
-
-.instruction-item {
-  display: flex;
-  align-items: flex-start;
-}
-
-.item-number {
-  width: 40rpx;
-  height: 40rpx;
-  background-color: var(--primary-color);
-  color: var(--white);
-  border-radius: var(--radius-full);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--font-size-sm);
-  font-weight: bold;
-  margin-right: 20rpx;
-  flex-shrink: 0;
-}
-
-.item-text {
-  font-size: 26rpx;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  flex: 1;
-}
+.instruction-section { padding: 16px; }
+.instruction-title { font-weight: 600; margin-bottom: 8px; }
+.instruction-item { display: flex; align-items: center; margin-bottom: 6px; }
+.item-number { width: 20px; height: 20px; background: var(--primary-color, #4CAF50); color: #fff; border-radius: 50%; display:flex; align-items:center; justify-content:center; margin-right: 8px; }
+.item-text { color: #555; }

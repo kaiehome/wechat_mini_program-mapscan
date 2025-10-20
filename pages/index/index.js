@@ -10,6 +10,10 @@ Page({
     scale: 16,
     markers: [],
     
+    // 顶部导航栏
+    statusBarHeight: 0,
+    navBarHeight: 0,
+    
     // 打卡进度
     userProgress: {
       isSignedIn: false,
@@ -27,6 +31,8 @@ Page({
     checkpoints: [],
     // 地图图片实际高度（px），用于让覆盖层完整覆盖图片）
     mapImageHeight: 0,
+    // 地图图片加载状态
+    mapImageLoaded: false,
     
     // 动画
     mapAnimation: {},
@@ -36,6 +42,18 @@ Page({
   onLoad() {
     this.initData()
     this.loadUserProgress()
+    
+    // 计算状态栏与自定义导航栏高度
+    try {
+      const sys = wx.getSystemInfoSync()
+      const statusBarHeight = sys.statusBarHeight || 20
+      const navBarHeight = statusBarHeight + 44
+      this.setData({ statusBarHeight, navBarHeight })
+    } catch (e) {
+      console.warn('获取系统信息失败，使用默认导航栏高度')
+      this.setData({ statusBarHeight: 20, navBarHeight: 64 })
+    }
+
     // 不再使用<map>组件，改为图片背景 + 覆盖圆圈
     this.updateMapDisplay()
   },
@@ -95,11 +113,12 @@ Page({
   },
 
   // 图片加载完成后，获取图片的真实渲染高度，使覆盖层与图片高度一致
-  onMapImageLoad() {
-    console.log('地图图片加载成功')
+  onMapImageLoad(e) {
+    console.log('地图图片加载成功', e.detail)
+    this.setData({ mapImageLoaded: true })
     try {
       const query = wx.createSelectorQuery()
-      query.in(this).select('.map-image').boundingClientRect()
+      query.in(this).select('.responsive-map-image').boundingClientRect()
       query.exec(res => {
         const rect = res && res[0]
         if (rect && rect.height) {

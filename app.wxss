@@ -1,3 +1,5 @@
+@import "./styles/variables.wxss";
+
 /**app.wxss**/
 .container {
   height: 100%;
@@ -93,7 +95,7 @@ page {
 .mt-30 { margin-top: 30rpx; }
 .mb-10 { margin-bottom: 10rpx; }
 .mb-20 { margin-bottom: 20rpx; }
-.mb-30 { margin-bottom: 30rpx; }
+
 .ml-10 { margin-left: 10rpx; }
 .ml-20 { margin-left: 20rpx; }
 .mr-10 { margin-right: 10rpx; }

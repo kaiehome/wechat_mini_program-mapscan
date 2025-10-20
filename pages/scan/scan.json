@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "扫码打卡",
+  "navigationStyle": "custom",
   "enablePullDownRefresh": true,
   "backgroundTextStyle": "dark"
 }

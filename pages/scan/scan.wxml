@@ -1,5 +1,10 @@
 <!--pages/scan/scan.wxml-->
-<view class="container">
+<view class="container" style="padding-top: {{navBarHeight}}px;">
+  <!-- 自定义导航栏 -->
+  <view class="custom-navbar" style="padding-top: {{statusBarHeight}}px; height: {{navBarHeight}}px;">
+    <text class="nav-title">扫码打卡</text>
+  </view>
+
   <!-- 扫码区域 -->
   <view class="scan-section">
     <view class="scan-title">扫描二维码打卡</view>
@@ -35,7 +40,7 @@
     <view class="progress-title">当前进度</view>
     <view class="progress-info">
       <view class="progress-text">
-        已完成 {{userProgress.completedStamps.length}}/{{userProgress.totalStamps}} 个点位
+        已完成 {{userProgress.completedStamps.length}}/{{userProgress.totalStamps}} 个点位 ({{progressPercentage}}%)
       </view>
       <view class="progress-bar">
         <view 
@@ -50,7 +55,9 @@
       <view 
         class="stamp-item {{userProgress.completedStamps.includes(item.id) ? 'completed' : 'uncompleted'}}" 
         wx:for="{{stamps}}" 
-        wx:key="id">
+        wx:key="id"
+        data-stamp-id="{{item.id}}"
+        bindtap="onStampTap">
         <image class="stamp-image" src="{{item.stampImage}}" mode="aspectFit"></image>
         <view class="stamp-name">{{item.name}}</view>
       </view>

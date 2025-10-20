@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>扫码页布局预览</title>
+  <link rel="stylesheet" href="../styles/variables.wxss">
+  <link rel="stylesheet" href="../pages/scan/scan.wxss">
+  <style>
+    body { margin: 0; background: #f7f7f7; }
+    .container { padding-top: 64px; }
+    .custom-navbar { padding-top: 20px; height: 64px; position: fixed; left:0; right:0; top:0; }
+    .scan-section, .progress-section, .instruction-section { max-width: 420px; margin: 0 auto; }
+    .stamps-wall { max-width: 420px; margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="custom-navbar"><text class="nav-title">扫码打卡</text></div>
+
+    <div class="scan-section">
+      <div class="scan-title">扫描二维码打卡</div>
+      <div class="scan-description">请将二维码放入框内进行扫描</div>
+      <div class="scan-button-container">
+        <button class="scan-button"><div class="scan-text">开始扫码</div></button>
+      </div>
+    </div>
+
+    <div class="progress-section">
+      <div class="progress-title">当前进度</div>
+      <div class="progress-info">
+        <div class="progress-text">已完成 1/6 个点位 (17%)</div>
+        <div class="progress-bar"><div class="progress-fill" style="width: 17%"></div></div>
+      </div>
+    </div>
+
+    <div class="stamps-wall">
+      <div class="stamp-item completed"><img class="stamp-image" src="../images/stamps/signin.png"/><div class="stamp-name">寻根·霜降廉养</div></div>
+      <div class="stamp-item uncompleted"><img class="stamp-image" src="../images/stamps/esports-Ash.png"/><div class="stamp-name">笃行·电竞廉规</div></div>
+      <div class="stamp-item uncompleted"><img class="stamp-image" src="../images/stamps/coffee-Ash.png"/><div class="stamp-name">省身·啡香廉思</div></div>
+      <div class="stamp-item uncompleted"><img class="stamp-image" src="../images/stamps/makeup-Ash.png"/><div class="stamp-name">正容·美妆廉仪</div></div>
+      <div class="stamp-item uncompleted"><img class="stamp-image" src="../images/stamps/sleep-Ash.png"/><div class="stamp-name">静悟·清风入梦</div></div>
+      <div class="stamp-item uncompleted"><img class="stamp-image" src="../images/stamps/breeze-Ash.png"/><div class="stamp-name">沁心·清风廉饮</div></div>
+    </div>
+
+    <div class="instruction-section">
+      <div class="instruction-title">使用说明</div>
+      <div class="instruction-content">
+        <div class="instruction-item"><div class="item-number">1</div><div class="item-text">首先扫描「寻根·霜降廉养」签到码</div></div>
+        <div class="instruction-item"><div class="item-number">2</div><div class="item-text">然后按任意顺序扫描其他5个点位</div></div>
+        <div class="instruction-item"><div class="item-number">3</div><div class="item-text">集齐所有电子印章后即可领取奖品</div></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

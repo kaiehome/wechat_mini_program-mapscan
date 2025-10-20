@@ -1,27 +1,34 @@
 <!--pages/index/index.wxml-->
 <view class="container">
+  <!-- 自定义导航栏 -->
+  <view class="custom-navbar" style="padding-top: {{statusBarHeight}}px; height: {{navBarHeight}}px;">
+    <text class="nav-title">打卡地图</text>
+  </view>
+  
   <!-- 响应式地图显示 -->
-  <view class="responsive-map-container">
+  <view class="responsive-map-container" style="padding-top: {{navBarHeight}}px;">
     <view class="map-wrapper">
       <image 
-        src="/images/backgrounds/打卡集章地图.png"
+        src="../../images/backgrounds/checkin-map.png"
         class="responsive-map-image"
-        mode="aspectFit"
+        mode="widthFix"
         bindload="onMapImageLoad"
         binderror="onMapImageError"
+        lazy-load="false"
+        show-menu-by-longpress="false"
       />
       
-      <!-- 响应式打卡点圆圈 -->
-      <view class="checkpoint-overlay-responsive">
-        <view 
-          class="checkpoint-circle-responsive {{userProgress.completedStamps.includes(item.id) ? 'completed' : 'pending'}}"
-          wx:for="{{checkpoints}}" 
-          wx:key="id"
-          style="left: {{item.position.x}}rpx; top: {{item.position.y}}rpx;"
-          bindtap="onCheckpointTap"
-          data-checkpoint-id="{{item.id}}">
-          <text class="circle-number">{{item.order}}</text>
+      <!-- 备用显示：如果图片加载失败，显示这个 -->
+      <view class="map-placeholder" wx:if="{{!mapImageLoaded}}">
+        <view class="placeholder-content">
+          <text class="placeholder-icon">🗺️</text>
+          <text class="placeholder-text">地图加载中...</text>
         </view>
+      </view>
+      
+      <!-- 按要求隐藏打卡点圆圈覆盖层 -->
+      <view class="checkpoint-overlay-responsive" wx:if="{{false}}">
+        <!-- 已隐藏 -->
       </view>
     </view>
   </view>

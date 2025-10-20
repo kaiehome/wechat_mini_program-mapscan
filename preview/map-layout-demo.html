@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>地图页图标彩色/-Ash 预览</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin: 0; background: #f7f7f7; }
+    .container { max-width: 900px; margin: 24px auto; padding: 16px; }
+    .title { font-weight: 600; font-size: 20px; margin-bottom: 12px; }
+    .map-wrapper { position: relative; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #fff; }
+    .map-image { width: 100%; display: block; }
+    .overlay { position: absolute; inset: 0; pointer-events: none; }
+    .circle { position: absolute; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(0,0,0,0.15); border: 3px solid #fff; background: rgba(255,255,255,0.92); pointer-events: auto; transition: transform .2s ease; }
+    .circle:hover { transform: scale(1.06); }
+    .circle.completed { border-color: #4CAF50; box-shadow: 0 6px 20px rgba(76,175,80,0.35); }
+    .circle.pending { border-color: #ddd; }
+    .circle img { width: 64px; height: 64px; border-radius: 50%; }
+    .legend { display: flex; gap: 12px; align-items: center; margin-top: 12px; color: #666; }
+    .dot { width: 14px; height: 14px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+    .dot.c { background: #4CAF50; }
+    .dot.p { background: #ddd; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="title">地图页图标彩色/-Ash 切换（预览）</div>
+    <div class="map-wrapper">
+      <img class="map-image" src="/images/backgrounds/checkin-map.png" alt="map" />
+      <div class="overlay" id="overlay"></div>
+    </div>
+    <div class="legend">
+      <span><span class="dot c"></span>已完成：彩色印章</span>
+      <span><span class="dot p"></span>未完成：-Ash 印章</span>
+    </div>
+  </div>
+  <script>
+    const checkpoints = [
+      { id: 'signin', x: 100, y: 150 },
+      { id: 'esports', x: 450, y: 120 },
+      { id: 'coffee', x: 480, y: 280 },
+      { id: 'makeup', x: 150, y: 350 },
+      { id: 'sleep', x: 280, y: 450 },
+      { id: 'breeze', x: 400, y: 450 },
+    ]
+    const completed = ['signin']
+    const overlay = document.getElementById('overlay')
+    checkpoints.forEach(cp => {
+      const isCompleted = completed.includes(cp.id)
+      const src = isCompleted 
+        ? `/images/stamps/${cp.id}.png`
+        : `/images/stamps/${cp.id}-Ash.png`
+      const circle = document.createElement('div')
+      circle.className = `circle ${isCompleted ? 'completed' : 'pending'}`
+      circle.style.left = cp.x + 'px'
+      circle.style.top = cp.y + 'px'
+      const img = document.createElement('img')
+      img.src = src
+      img.alt = cp.id
+      circle.appendChild(img)
+      overlay.appendChild(circle)
+    })
+  </script>
+</body>
+</html>
