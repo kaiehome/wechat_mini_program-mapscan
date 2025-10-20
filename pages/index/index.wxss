@@ -47,17 +47,19 @@
   top: 0;
   left: 0;
   right: 0;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--navbar-bg-color);
-  color: var(--navbar-text-color);
-  z-index: 1000;
+  background-color: var(--primary-color, #4CAF50);
+  color: #fff;
+  box-sizing: border-box;
 }
 
 .nav-title {
-  font-size: 32rpx;
+  font-size: 16px;
   font-weight: 600;
+  letter-spacing: 0.5px;
   color: var(--navbar-text-color);
 }
 
@@ -501,12 +503,18 @@
 
 /* 地图外层包裹容器 */
 .map-wrapper {
-  position: relative;
+
   background-color: white;
   border-radius: 20rpx;
   overflow: hidden;
   box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.1);
   width: 100%;
-  margin: 6vh auto 0;
+  margin: 16rpx auto 0;
   box-sizing: border-box;
 }
+
+/* 活动指引卡片（红框位置） */
+.activity-guide-panel { background:#fff; border-radius: 16rpx; padding: 24rpx; box-shadow: 0 8rpx 24rpx rgba(0,0,0,0.06); border: 1rpx solid #eee; max-width: 420px; margin: 12rpx auto; color:#333; }
+.guide-title { font-size: 32rpx; font-weight: 700; text-align: center; letter-spacing: 2rpx; }
+.guide-subtitle { font-size: 16px; color: #4CAF50; text-align: center; margin-top: 6rpx; }
+.guide-paragraph { font-size: 15px; line-height: 1.8; color: #555; text-align: justify; margin-top: 12rpx; }

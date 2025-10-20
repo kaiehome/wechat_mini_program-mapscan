@@ -7,7 +7,7 @@
 
   <!-- 扫码区域 -->
   <view class="scan-section">
-    <view class="scan-title">扫描二维码打卡</view>
+    <!-- 扫描标题移除 -->
     <view class="scan-description">请将二维码放入框内进行扫描</view>
     
     <!-- 扫码按钮 -->
@@ -72,7 +72,7 @@
     <view class="instruction-content">
       <view class="instruction-item">
         <view class="item-number">1</view>
-        <view class="item-text">首先扫描「寻根·霜降廉养」签到码</view>
+        <view class="item-text">请先到大厅手工区扫码签到</view>
       </view>
       <view class="instruction-item">
         <view class="item-number">2</view>
@@ -80,8 +80,26 @@
       </view>
       <view class="instruction-item">
         <view class="item-number">3</view>
-        <view class="item-text">集齐所有电子印章后即可领取奖品</view>
+        <view class="item-text-block">
+          <view class="item-text">集齐所有电子印章后即可领取奖品</view>
+          <view class="item-subtext">（数量有限，先到先得）</view>
+        </view>
       </view>
     </view>
   </view>
+
+
+<!-- 完成提示弹窗（自定义） -->
+<view class="modal-overlay" wx:if="{{completionModalVisible}}">
+  <view class="modal">
+    <view class="modal-title">打卡完成</view>
+    <view class="modal-content">
+      <view class="modal-line">✨恭喜你打卡全部完成，<text class="justify-filler"></text></view>
+      <view class="modal-line">请到<text class="bold">签到处</text>领取你的奖品！✨<text class="justify-filler"></text></view>
+    </view>
+    <view class="modal-actions">
+      <button class="btn-primary" bindtap="closeCompletionModal">确定</button>
+    </view>
+  </view>
+</view>
 </view>

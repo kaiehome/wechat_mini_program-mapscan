@@ -2,7 +2,7 @@
   "usingComponents": {
     "progress-bar": "/components/progress/progress"
   },
-  "navigationBarTitleText": "打卡地图",
+  "navigationBarTitleText": "",
   "navigationStyle": "custom",
   "enablePullDownRefresh": true,
   "backgroundTextStyle": "dark"

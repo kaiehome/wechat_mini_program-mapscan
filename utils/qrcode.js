@@ -253,7 +253,7 @@ class QRCodeUtils {
     if (checkpointId !== 'signin' && !userProgress.isSignedIn) {
       return {
         valid: false,
-        message: '请首先扫描签到二维码完成签到'
+        message: '请先到大厅手工区扫码签到'
       }
     }
 

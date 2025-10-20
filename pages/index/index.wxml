@@ -1,12 +1,21 @@
 <!--pages/index/index.wxml-->
-<view class="container">
+<view class="container" style="padding-top: {{navBarHeight}}px;">
   <!-- 自定义导航栏 -->
   <view class="custom-navbar" style="padding-top: {{statusBarHeight}}px; height: {{navBarHeight}}px;">
     <text class="nav-title">打卡地图</text>
   </view>
   
   <!-- 响应式地图显示 -->
-  <view class="responsive-map-container" style="padding-top: {{navBarHeight}}px;">
+  <view class="responsive-map-container">
+    <!-- 活动指引卡片（红框位置） -->
+    <view class="activity-guide-panel">
+      <view class="guide-title">清风入南新，廉洁润万家</view>
+      <view class="guide-subtitle">打卡游活动扫码指引</view>
+      <view class="guide-paragraph">欢迎参与“清风入南新，廉洁润万家”打卡游活动！</view>
+      <view class="guide-paragraph">在本次活动中，您将体验到丰富有趣的廉洁文化互动环节。每完成一个环节，只需扫描对应的二维码，即可完成线上打卡并加盖专属电子印章。</view>
+      <view class="guide-paragraph">当您完成所有打卡任务后，携带集齐电子印章的页面，前往兑奖处，就能领取精美奖品啦！</view>
+      <view class="guide-paragraph">快来开启您的廉洁探索之旅吧！</view>
+    </view>
     <view class="map-wrapper">
       <image 
         src="../../images/backgrounds/checkin-map.png"

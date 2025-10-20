@@ -4,23 +4,43 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>我的印章 彩色/-Ash 预览</title>
+  <link rel="stylesheet" href="../pages/stamps/stamps.wxss">
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin: 0; background: #f6f7f9; }
-    .container { max-width: 980px; margin: 24px auto; padding: 16px; }
+    .container { max-width: 980px; margin: 24px auto; padding: 16px 0; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
     .title { font-weight: 600; font-size: 20px; margin-bottom: 12px; }
-    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .card { background: #fff; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .stamp { width: 96px; height: 96px; border-radius: 50%; }
-    .name { margin-top: 8px; font-size: 14px; color: #333; }
-    .status { margin-top: 4px; font-size: 12px; color: #666; }
-    .status.completed { color: #2E7D32; }
-    .status.pending { color: #999; }
+    .card { background: #fff; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+     .stamp { width: 108px; height: 108px; border-radius: 50%; }
+     .badge { position: absolute; top: 6px; right: 6px; background: rgba(255,255,255,0.9); border-radius: 12px; padding: 2px 6px; font-size: 12px; }
+     .badge.completed { color: #fbc02d; }
+     .badge.pending { color: #999; }
+     .status { margin-top: 4px; font-size: 12px; color: #666; }
+     .status.completed { color: #fbc02d; }
+     .status.pending { color: #999; }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="title">我的印章页面彩色/-Ash 切换（预览）</div>
-    <div class="grid" id="grid"></div>
+    <div class="statistics-section">
+      <div class="section-title">收集进度</div>
+      <div class="statistics-content">
+        <div class="stat-item"><div class="stat-number">5</div><div class="stat-label">已收集</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><div class="stat-number">1</div><div class="stat-label">待收集</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><div class="stat-number">83%</div><div class="stat-label">完成率</div></div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:83%"></div></div>
+    </div>
+
+    <div class="stamps-section">
+        <div class="section-title">电子印章</div>
+      <div class="grid" id="grid"></div>
+    </div>
+    <div class="action-section">
+        <button class="action-btn btn-success">继续打卡</button>
+      </div>
   </div>
   <script>
     const stamps = [
@@ -42,14 +62,14 @@
       img.className = 'stamp'
       img.src = src
       img.alt = s.name
-      const name = document.createElement('div')
-      name.className = 'name'
-      name.textContent = s.name
+      const badge = document.createElement('div')
+      badge.className = `badge ${isCompleted ? 'completed' : 'pending'}`
+      badge.textContent = isCompleted ? '⭐' : '○'
       const status = document.createElement('div')
       status.className = `status ${isCompleted ? 'completed' : 'pending'}`
       status.textContent = isCompleted ? '✓ 已完成' : '○ 待打卡'
       card.appendChild(img)
-      card.appendChild(name)
+      card.appendChild(badge)
       card.appendChild(status)
       grid.appendChild(card)
     })

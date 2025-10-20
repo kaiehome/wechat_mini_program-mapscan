@@ -7,7 +7,7 @@
 
   <!-- 统计信息 -->
   <view class="statistics-section">
-    <view class="statistics-title">收集进度</view>
+    <view class="section-title">收集进度</view>
     <view class="statistics-content">
       <view class="stat-item">
         <view class="stat-number">{{statistics.completed}}</view>
@@ -36,7 +36,7 @@
 
   <!-- 印章展示 -->
   <view class="stamps-section">
-    <view class="stamps-title">电子印章</view>
+    <view class="section-title">电子印章</view>
     <view class="stamps-grid">
       <view 
         class="stamp-item {{item.isCompleted ? 'completed' : 'pending'}}"
@@ -46,19 +46,18 @@
         
         <!-- 印章图标 -->
         <view class="stamp-icon">
-          <image src="{{item.stampImage}}" class="stamp-image"></image>
+          <image src="{{item.stampImage}}" class="stamp-image" mode="aspectFit"></image>
           <view class="stamp-status {{item.isCompleted ? 'completed' : 'pending'}}">
-            {{item.isCompleted ? '✓' : '○'}}
-          </view>
+             {{item.isCompleted ? '⭐' : '○'}}
+           </view>
         </view>
         
         <!-- 印章信息 -->
         <view class="stamp-info">
-          <view class="stamp-name">{{item.name}}</view>
-          <view class="stamp-area">{{item.area}}</view>
-          <view class="stamp-time" wx:if="{{item.isCompleted}}">
-            {{item.completionTime}}
+          <view class="stamp-status-text {{item.isCompleted ? 'completed' : 'pending'}}">
+            {{item.isCompleted ? '✓ 已完成' : '○ 待打卡'}}
           </view>
+          <view class="stamp-area">{{item.area}}</view>
         </view>
       </view>
     </view>
@@ -66,14 +65,8 @@
 
   <!-- 操作按钮 -->
   <view class="action-section">
-    <button class="action-btn btn-primary" bindtap="viewCompletionStatus">
-      {{userProgress.completionStatus ? '查看奖品信息' : '查看完成情况'}}
-    </button>
     <button class="action-btn btn-success" bindtap="goToScan">
       继续打卡
-    </button>
-    <button class="action-btn btn-warning" bindtap="resetProgress">
-      重置进度
     </button>
   </view>
 

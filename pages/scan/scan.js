@@ -14,7 +14,8 @@ Page({
       totalStamps: 6,
       completionStatus: false
     },
-    progressPercentage: 0
+    progressPercentage: 0,
+    completionModalVisible: false
   },
 
   onLoad() {
@@ -70,6 +71,7 @@ Page({
       onlyFromCamera: true,
       scanType: ['qrCode'],
       success: (res) => {
+        const prevCompletedCount = this.data.userProgress.completedStamps.length;
         const raw = res.result || res.path || ''
         // 解析二维码内容
         const parsed = qrCodeUtils.parseQRCode(raw)
@@ -101,6 +103,10 @@ Page({
         this.refreshStampsImages()
         this.updateProgress()
         wx.showToast({ title: '打卡成功', icon: 'success' })
+        const newCompletedCount = updatedProgress.completedStamps.length
+        if (newCompletedCount === updatedProgress.totalStamps && newCompletedCount !== prevCompletedCount) {
+           this.setData({ completionModalVisible: true })
+         }
       },
       fail: (err) => {
         console.error('扫码失败:', err)
@@ -114,5 +120,9 @@ Page({
     const id = e.currentTarget.dataset.stampId;
     const isCompleted = this.data.userProgress.completedStamps.includes(id)
     wx.showToast({ title: `${isCompleted ? '已完成' : '未完成'}：${id}`, icon: 'none' });
+  },
+
+  closeCompletionModal() {
+    this.setData({ completionModalVisible: false })
   }
 })
