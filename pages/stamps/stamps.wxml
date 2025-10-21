@@ -29,7 +29,7 @@
     <view class="progress-bar">
       <view 
         class="progress-fill" 
-        style="width: {{statistics.completionRate}}%">
+        style="width: {{statistics.completionRate}}%;">
       </view>
     </view>
   </view>

@@ -38,7 +38,7 @@
       <view class="progress-bar">
         <view 
           class="progress-fill" 
-          style="width: {{progressPercentage}}%">
+          style="width: {{progressPercentage}}%;">
         </view>
       </view>
     </view>

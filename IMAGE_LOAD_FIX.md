@@ -7,7 +7,7 @@
 
 ### 1. 图片路径问题
 - **修复前**: 使用相对路径 `../../images/backgrounds/打卡集章地图.png`
-- **修复后**: 使用绝对路径 `/images/backgrounds/checkin-map.png`
+- **修复后**: 使用绝对路径 `/images/backgrounds/checkin-map.jpg`
 
 ### 2. 添加错误处理
 - 添加了 `onMapImageError` 方法处理图片加载失败
@@ -22,7 +22,7 @@
 ### 步骤1: 确认图片文件存在
 ```bash
 ls -la images/backgrounds/
-# 应该看到 checkin-map.png 和 打卡集章地图.png
+# 应该看到 checkin-map.jpg 和 打卡集章地图.jpg
 ```
 
 ### 步骤2: 重新编译项目
@@ -45,7 +45,7 @@ ls -la images/backgrounds/
 ### 方法2: 检查文件路径
 确保以下文件存在：
 ```
-images/backgrounds/checkin-map.png
+images/backgrounds/checkin-map.jpg
 images/backgrounds/打卡集章地图.png
 ```
 

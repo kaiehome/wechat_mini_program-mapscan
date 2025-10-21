@@ -20,11 +20,10 @@
       <image 
         src="../../images/backgrounds/checkin-map.jpg"
         class="responsive-map-image"
-        mode="aspectFill"
+        mode="widthFix"
         bindload="onMapImageLoad"
         binderror="onMapImageError"
         lazy-load="false"
-        show-menu-by-longpress="false"
       />
       
       <!-- 备用显示：如果图片加载失败，显示这个 -->
