@@ -1,9 +1,7 @@
 {
-  "usingComponents": {
-    "progress-bar": "/components/progress/progress"
-  },
   "navigationBarTitleText": "",
   "navigationStyle": "custom",
-  "enablePullDownRefresh": true,
+  "navigationBarTextStyle": "white",
+  "enablePullDownRefresh": false,
   "backgroundTextStyle": "dark"
 }

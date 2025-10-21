@@ -105,10 +105,10 @@
 }
 
 .instruction-section { padding: 16px; }
-.instruction-title { font-weight: 600; margin-bottom: 8px; }
-.instruction-item { display: flex; align-items: flex-start; margin-bottom: 6px; }
-.item-number { width: 20px; height: 20px; background: var(--primary-color, #4CAF50); color: #fff; border-radius: 50%; display:flex; align-items:center; justify-content:center; margin-right: 8px; }
-.item-text { color: #555; }
+.instruction-title { font-weight: 600; margin-bottom: 8px; font-size: 18px; }
+.instruction-item { display: flex; align-items: flex-start; margin-bottom: 8px; }
+.item-number { width: 22px; height: 22px; background: var(--primary-color, #4CAF50); color: #fff; border-radius: 50%; display:flex; align-items:center; justify-content:center; margin-right: 10px; font-size: 14px; }
+.item-text { color: #555; font-size: 16px; }
 .item-text-block { display: flex; flex-direction: column; }
 .item-subtext { color: #999; font-size: 12px; margin-top: 4px; }
 

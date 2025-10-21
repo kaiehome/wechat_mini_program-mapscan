@@ -5,6 +5,59 @@
     <text class="nav-title">扫码打卡</text>
   </view>
 
+
+  <!-- 使用说明 -->
+  <view class="instruction-section">
+    <view class="instruction-title">使用说明</view>
+    <view class="instruction-content">
+      <view class="instruction-item">
+        <view class="item-number">1</view>
+        <view class="item-text">请先到大厅手工区扫码签到</view>
+      </view>
+      <view class="instruction-item">
+        <view class="item-number">2</view>
+        <view class="item-text">然后按任意顺序扫描其他5个点位</view>
+      </view>
+      <view class="instruction-item">
+        <view class="item-number">3</view>
+        <view class="item-text-block">
+          <view class="item-text">集齐所有电子印章后即可领取奖品</view>
+          <view class="item-subtext">（数量有限，先到先得）</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+<!-- 当前进度 -->
+  <view class="progress-section">
+    <view class="progress-title">当前进度</view>
+    <view class="progress-info">
+      <view class="progress-text">
+        已完成 {{userProgress.completedStamps.length}}/{{userProgress.totalStamps}} 个点位 ({{progressPercentage}}%)
+      </view>
+      <view class="progress-bar">
+        <view 
+          class="progress-fill" 
+          style="width: {{progressPercentage}}%">
+        </view>
+      </view>
+    </view>
+    
+    <!-- 印章墙 -->
+    <view class="stamps-wall">
+      <view 
+        class="stamp-item {{userProgress.completedStamps.includes(item.id) ? 'completed' : 'uncompleted'}}" 
+        wx:for="{{stamps}}" 
+        wx:key="id"
+        data-stamp-id="{{item.id}}"
+        bindtap="onStampTap">
+        <image class="stamp-image" src="{{item.stampImage}}" mode="aspectFit"></image>
+        <view class="stamp-name">{{item.name}}</view>
+      </view>
+    </view>
+  </view>
+
+  
   <!-- 扫码区域 -->
   <view class="scan-section">
     <!-- 扫描标题移除 -->
@@ -35,58 +88,9 @@
     </view>
   </view>
 
-  <!-- 当前进度 -->
-  <view class="progress-section">
-    <view class="progress-title">当前进度</view>
-    <view class="progress-info">
-      <view class="progress-text">
-        已完成 {{userProgress.completedStamps.length}}/{{userProgress.totalStamps}} 个点位 ({{progressPercentage}}%)
-      </view>
-      <view class="progress-bar">
-        <view 
-          class="progress-fill" 
-          style="width: {{progressPercentage}}%">
-        </view>
-      </view>
-    </view>
-    
-    <!-- 印章墙 -->
-    <view class="stamps-wall">
-      <view 
-        class="stamp-item {{userProgress.completedStamps.includes(item.id) ? 'completed' : 'uncompleted'}}" 
-        wx:for="{{stamps}}" 
-        wx:key="id"
-        data-stamp-id="{{item.id}}"
-        bindtap="onStampTap">
-        <image class="stamp-image" src="{{item.stampImage}}" mode="aspectFit"></image>
-        <view class="stamp-name">{{item.name}}</view>
-      </view>
-    </view>
-  </view>
+  
 
 
-
-  <!-- 使用说明 -->
-  <view class="instruction-section">
-    <view class="instruction-title">使用说明</view>
-    <view class="instruction-content">
-      <view class="instruction-item">
-        <view class="item-number">1</view>
-        <view class="item-text">请先到大厅手工区扫码签到</view>
-      </view>
-      <view class="instruction-item">
-        <view class="item-number">2</view>
-        <view class="item-text">然后按任意顺序扫描其他5个点位</view>
-      </view>
-      <view class="instruction-item">
-        <view class="item-number">3</view>
-        <view class="item-text-block">
-          <view class="item-text">集齐所有电子印章后即可领取奖品</view>
-          <view class="item-subtext">（数量有限，先到先得）</view>
-        </view>
-      </view>
-    </view>
-  </view>
 
 
 <!-- 完成提示弹窗（自定义） -->

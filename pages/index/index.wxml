@@ -18,9 +18,9 @@
     </view>
     <view class="map-wrapper">
       <image 
-        src="../../images/backgrounds/checkin-map.png"
+        src="../../images/backgrounds/checkin-map.jpg"
         class="responsive-map-image"
-        mode="widthFix"
+        mode="aspectFill"
         bindload="onMapImageLoad"
         binderror="onMapImageError"
         lazy-load="false"
